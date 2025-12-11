@@ -77,7 +77,7 @@ const portfolio = [
     url: "https://algorithmic-explorers.pages.dev/",
     image: "projects/explorers.png",
     projectDetail:
-      "Invest in Saudi Arabia, Streamline Your Business Setup Process in Saudi Arabia with FirmSanad Simplify the process of obtaining licenses and starting a business in Saudi Arabia with our streamlined platform.",
+      "Best platform for learning data structures and algorithms with interactive visualizations and coding challenges to enhance problem-solving skills.",
     technologiesUsed: [
       {
         tech: "ReactJS",
