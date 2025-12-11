@@ -10,10 +10,12 @@ import ParagraphSkeleton from "../components/Common/ParagraphSkeleton";
 
 function Background() {
 
-    const { isLoading, error, data } = useQuery('background', () =>
-        axios.get('api/background')
+    const { isLoading, error, data } = useQuery({
+        queryKey: ['background'],
+        queryFn: () => axios.get('api/background')
             .then(({ data }) => data)
-            .catch(error => console.error('Error fetching testimonials:', error)))
+            .catch(error => console.error('Error fetching testimonials:', error))
+    })
 
     return (
         <BannerLayout>

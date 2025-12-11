@@ -5,10 +5,12 @@ import ParagraphSkeleton from "../../Common/ParagraphSkeleton";
 
 
 const Recommendations = () => {
-    const { isLoading, error, data } = useQuery('recommendations', () =>
-        axios.get('api/recommendations')
+    const { isLoading, error, data } = useQuery({
+        queryKey: ['recommendations'],
+        queryFn: () => axios.get('api/recommendations')
             .then(({ data }) => data)
-            .catch(error => console.error('Error fetching testimonials:', error)))
+            .catch(error => console.error('Error fetching testimonials:', error))
+    })
 
 
     return (

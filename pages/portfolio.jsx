@@ -9,10 +9,12 @@ import ImageAndParagraphSkeleton from "../components/Common/ImageAndParagraphSke
 
 const Portfolio = () => {
 
-    const { isLoading, error, data } = useQuery('portfolio', () =>
-        axios.get('api/portfolio')
+    const { isLoading, error, data } = useQuery({
+        queryKey: ['portfolio'],
+        queryFn: () => axios.get('api/portfolio')
             .then(({ data }) => data)
-            .catch(error => console.error('Error fetching testimonials:', error)))
+            .catch(error => console.error('Error fetching testimonials:', error))
+    })
     return (
         <BannerLayout>
             <div className="grid justify items-center grid-flow-row md:grid-cols-2 grid-rows-auto gap-4 px-8 my-6">
