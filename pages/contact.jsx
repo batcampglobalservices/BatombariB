@@ -7,9 +7,73 @@ import { BsChatTextFill } from 'react-icons/bs'
 import Fiverr_Icon from '../components/Fiverr_Icon';
 import Footer from '../components/Footer';
 import { Modal } from 'antd';
+import axios from 'axios';
 
 const Contact = () => {
     const [isOpen, setIsOpen] = useState(false)
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        message: ''
+    })
+    const [isLoading, setIsLoading] = useState(false)
+    const [modalContent, setModalContent] = useState({
+        title: '',
+        message: '',
+        isSuccess: false
+    })
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        
+        // Basic validation
+        if (!formData.name || !formData.email || !formData.message) {
+            setModalContent({
+                title: 'Error',
+                message: 'Please fill in all fields',
+                isSuccess: false
+            })
+            setIsOpen(true)
+            return
+        }
+
+        setIsLoading(true)
+
+        try {
+            const response = await axios.post('/api/contact', formData)
+            
+            if (response.data.success) {
+                setModalContent({
+                    title: 'Success!',
+                    message: 'Thank you for your message. I will get back to you soon!',
+                    isSuccess: true
+                })
+                // Clear form
+                setFormData({
+                    name: '',
+                    email: '',
+                    message: ''
+                })
+            }
+        } catch (error) {
+            setModalContent({
+                title: 'Error',
+                message: error.response?.data?.message || 'Failed to send message. Please try again later.',
+                isSuccess: false
+            })
+        } finally {
+            setIsLoading(false)
+            setIsOpen(true)
+        }
+    }
 
     return (
         <BannerLayout>
@@ -53,14 +117,22 @@ const Contact = () => {
 
                 <div className="my-12 w-full h-auto text-Snow">
                     <h1 className='text-lg font-bold'>Get In Touch</h1>
-                    <div className="mt-4 py-8 px-8 bg-EveningBlack rounded-xl text-sm">
+                    <form onSubmit={handleSubmit} className="mt-4 py-8 px-8 bg-EveningBlack rounded-xl text-sm">
                         <div>
                             <div className="flex flex-col w-full">
                                 <div className="userIcon relative mb-6">
                                     <div id="icon" className="absolute inset-y-0 left-0 flex items-center pl-3 text-xl pointer-events-none">
                                         <HiUser />
                                     </div>
-                                    <input type="text" className="input_stylings" placeholder="Name" />
+                                    <input 
+                                        type="text" 
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleInputChange}
+                                        className="input_stylings" 
+                                        placeholder="Name"
+                                        required
+                                    />
                                 </div>
                             </div>
 
@@ -69,7 +141,15 @@ const Contact = () => {
                                     <div id="icon" className="absolute inset-y-0 left-0 flex items-center text-xl pl-3 pointer-events-none">
                                         <HiMail />
                                     </div>
-                                    <input type="text" className="input_stylings" placeholder="Email" />
+                                    <input 
+                                        type="email" 
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleInputChange}
+                                        className="input_stylings" 
+                                        placeholder="Email"
+                                        required
+                                    />
                                 </div>
                             </div>
 
@@ -78,21 +158,35 @@ const Contact = () => {
                                     <div id="icon" className="absolute top-3 left-0 flex items-center text-lg pl-3 pointer-events-none">
                                         <BsChatTextFill />
                                     </div>
-                                    <textarea rows={6} cols={50} className="input_stylings" placeholder="Message" />
+                                    <textarea 
+                                        rows={6} 
+                                        cols={50} 
+                                        name="message"
+                                        value={formData.message}
+                                        onChange={handleInputChange}
+                                        className="input_stylings" 
+                                        placeholder="Message"
+                                        required
+                                    />
                                 </div>
                             </div>
 
                             <div className="my-4">
-                                <button onClick={() => setIsOpen(true)} className="button"> SEND MESSAGE </button>
+                                <button 
+                                    type="submit" 
+                                    disabled={isLoading}
+                                    className="button disabled:opacity-50 disabled:cursor-not-allowed"
+                                > 
+                                    {isLoading ? 'SENDING...' : 'SEND MESSAGE'}
+                                </button>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
-            {/* success modal */}
+            {/* success/error modal */}
             <Modal
                 className='card_stylings backdrop-blur-3xl drop-shadow-2xl'
-                // wrapClassName='bg-red-800'
                 centered
                 open={isOpen}
                 footer={null}
@@ -101,8 +195,16 @@ const Contact = () => {
                 onCancel={() => setIsOpen(false)}
             >
                 <div className='flex flex-col items-center justify-center'>
-                    <h1 className='text-Green font-bold text-2xl'>In Progress</h1>
-                    <a className='underline text-Snow' target='_blank' href='https://github.com/batcampglobalservices'>Be the one to integrate this!</a>
+                    <h1 className={`font-bold text-2xl ${modalContent.isSuccess ? 'text-Green' : 'text-red-500'}`}>
+                        {modalContent.title}
+                    </h1>
+                    <p className='text-Snow mt-4 text-center'>{modalContent.message}</p>
+                    <button 
+                        onClick={() => setIsOpen(false)} 
+                        className='mt-6 px-6 py-2 bg-Green text-DeepNightBlack rounded-lg hover:bg-opacity-80 transition-all'
+                    >
+                        Close
+                    </button>
                 </div>
             </Modal>
             <Footer />
