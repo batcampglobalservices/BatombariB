@@ -3,7 +3,7 @@ import Edu_Card from "../components/Background/Edu_Card";
 import Exp_Card from "../components/Background/Exp_Card";
 import BannerLayout from "../components/Common/BannerLayout";
 import Footer from "../components/Footer";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Skeleton } from "antd";
 import ParagraphSkeleton from "../components/Common/ParagraphSkeleton";

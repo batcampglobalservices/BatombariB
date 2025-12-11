@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import BannerLayout from "../components/Common/BannerLayout";
 import Footer from "../components/Footer";
 import PortfolioCard from "../components/Portfolio/PortfolioCard";
