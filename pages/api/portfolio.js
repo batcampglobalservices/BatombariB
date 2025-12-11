@@ -75,7 +75,7 @@ const portfolio = [
     id: 3,
     projectName: "Algorithimic Explorers Website",
     url: "https://algorithmic-explorers.pages.dev/",
-    image: "projects/explorer.png",
+    image: "projects/explorers.png",
     projectDetail:
       "Invest in Saudi Arabia, Streamline Your Business Setup Process in Saudi Arabia with FirmSanad Simplify the process of obtaining licenses and starting a business in Saudi Arabia with our streamlined platform.",
     technologiesUsed: [
