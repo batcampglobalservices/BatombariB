@@ -5,7 +5,7 @@ export const DESIGNATION = `Full Stack Engineer | Ethical Hacker | UI/UX Designe
 export const DETAILS = {
   Residence: 'Nigeria',
   City: 'Nsukka',
-  Age: '13',
+  Age: '14',
 };
 
 export const SKILLS = [

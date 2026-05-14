@@ -5,7 +5,7 @@
 
 This website is fully responsive personal portfolio, <br />Responsive for all devices, built using Nextjs, TailwindCSS only.
 
-<a href="https://batombarib.vercel.app/"><strong>➥ Live Demo</strong></a>
+<a href="https://batombari-b.vercel.app/"><strong>➥ Live Demo</strong></a>
 
 </div>
 

@@ -6,7 +6,7 @@ const background = [
                 title: 'University of Nigeria Secondary School, Nsukka',
                 degree: 'Junior Secondary School Education',
                 detail: "Secondary School Education",
-                year: '2018-2022'
+                year: '2023-Present'
             },
         ]
     },
