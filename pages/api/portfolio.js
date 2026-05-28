@@ -1,6 +1,23 @@
 const portfolio = [
-  {
+    {
     id: 0,
+    projectName: "Bat Blogs",
+    url: "https://batblogs.vercel.app/",
+    image: "projects/batblogs.png",
+    projectDetail:
+      "A blogs platform that allows users to create and share their blogs online. It offers a wide range of features, including blog creation, editing, and sharing.",
+    technologiesUsed: [
+      { tech: "React" },
+      { tech: "NodeJS" },
+      { tech: "MongoDB" },
+      { tech: "Express" },
+      { tech: "TailwindCSS" },
+      { tech: "Scss" },
+      { tech: "AI SDK" },
+    ],
+  },
+  {
+    id: 1,
     projectName: "Glohaat Ecommerce website",
     url: "https://bat-editz-glowhaat.vercel.app/",
     image: "projects/glowhaat.png",
@@ -13,10 +30,11 @@ const portfolio = [
       { tech: "Express" },
       { tech: "TailwindCSS" },
       { tech: "AI SDK" },
+      { tech: "Stripe" },
     ],
   },
   {
-    id: 1,
+    id: 2,
     projectName: "BAT-AI",
     url: "https://bat-ai-sigma.vercel.app/",
     image: "projects/bat-ai.png",
@@ -41,7 +59,7 @@ const portfolio = [
     ],
   },
   {
-    id: 2,
+    id: 3,
     projectName: "UPSN-Website",
     url: "https://upsn-website.vercel.app/",
     image: "projects/upsn.png",
@@ -63,7 +81,7 @@ const portfolio = [
     ],
   },
   {
-    id: 3,
+    id: 4,
     projectName: "BatCommerce",
     url: "https://batcommerce.vercel.app/",
     image: "projects/batcommerce.png",
@@ -88,7 +106,7 @@ const portfolio = [
     ],
   },
   {
-    id: 4,
+    id: 5,
     projectName: "Algorithimic Explorers Website",
     url: "https://algorithmic-explorers.pages.dev/",
     image: "projects/explorers.png",
@@ -113,7 +131,7 @@ const portfolio = [
     ],
   },
   {
-    id: 5,
+    id: 6,
     projectName: "Bloombreed Clone",
     url: "https://bloombreed-schools.com/",
     image: "projects/bloombreed.png",
@@ -138,7 +156,7 @@ const portfolio = [
     ],
   },
   {
-    id: 6,
+    id: 7,
     projectName: "Jumia Clone",
     url: "/domain-expired",
     image: "projects/jumia.png",
@@ -163,7 +181,7 @@ const portfolio = [
     ],
   },
   {
-    id: 7,
+    id: 8,
     projectName: "Batcamp Website",
     url: "https://batcamp-global-services.vercel.app/",
     image: "projects/batcamp.png",
@@ -188,7 +206,7 @@ const portfolio = [
     ],
   },
   {
-    id: 8,
+    id: 9,
     projectName: "Hotels.ng Clone",
     url: "https://hotels.ng/",
     image: "projects/hotels.png",
