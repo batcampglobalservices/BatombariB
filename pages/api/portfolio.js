@@ -1,5 +1,5 @@
 const portfolio = [
-   {
+  {
     id: 0,
     projectName: "Bat Agents",
     url: "https://bat-agents.vercel.app/",
@@ -15,7 +15,7 @@ const portfolio = [
       { tech: "0G Infrastructure" },
     ],
   },
-     {
+  {
     id: 1,
     projectName: "Fablyte Africa Company Profile",
     url: "https://fablyte-website.vercel.app/",
@@ -29,8 +29,8 @@ const portfolio = [
       { tech: "SCSS" },
     ],
   },
-  
-    {
+
+  {
     id: 2,
     projectName: "Bat Blogs",
     url: "https://batblogs.vercel.app/",
@@ -186,11 +186,11 @@ const portfolio = [
       },
     ],
   },
-    {
+  {
     id: 9,
     projectName: "FrontendMentor Multi-step-form",
     url: "https://frontend-mentor-bat-multi-step-form.vercel.app/",
-    image: "projects/frontendmentor-multistep-form.png",
+    image: "projects/frontendmentor-multi-step-form.png",
     projectDetail:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam corrupti aut veritatis, adipisci natus optio dolores cum rem? Aut perferendis fugit, eos rerum totam aspernatur iure alias temporibus ipsa perspiciatis!",
     technologiesUsed: [
@@ -208,7 +208,7 @@ const portfolio = [
       },
     ],
   },
-    {
+  {
     id: 10,
     projectName: "FrontendMentor RSS-news-feed",
     url: "https://frontend-mentor-feed-reader-main.vercel.app/",
@@ -217,10 +217,10 @@ const portfolio = [
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam corrupti aut veritatis, adipisci natus optio dolores cum rem? Aut perferendis fugit, eos rerum totam aspernatur iure alias temporibus ipsa perspiciatis!",
     technologiesUsed: [
       {
-        tech: "HTML",
+        tech: "Vite",
       },
       {
-        tech: "CSS",
+        tech: "Typescript",
       },
       {
         tech: "Javascript",
