@@ -1,6 +1,37 @@
 const portfolio = [
-    {
+   {
     id: 0,
+    projectName: "Bat Agents",
+    url: "https://bat-agents.vercel.app/",
+    image: "projects/batagents.png",
+    projectDetail:
+      "Bat Agents is a decentralized AI agent marketplace that allows users to create, own, list, and monetize AI agents. Creators can build agents using system prompts and resources, while users can hire these agents for real tasks like coding, research, business support, content creation, and automation. The project combines AI and Web3 to make agent ownership, access, and payments more transparent.",
+    technologiesUsed: [
+      { tech: "NextJS" },
+      { tech: "TypeScript" },
+      { tech: "TailwindCSS" },
+      { tech: "Three.js" },
+      { tech: "0G AI" },
+      { tech: "0G Infrastructure" },
+    ],
+  },
+     {
+    id: 1,
+    projectName: "Fablyte Africa Company Profile",
+    url: "https://fablyte-website.vercel.app/",
+    image: "projects/fablyte.png",
+    projectDetail:
+      "Fablyfe Africa is a climate-smart agricultural enterprise dedicated to helping growers build productive farms. The platform showcases their premium organic farming solutions, including greenhouse and open field setup, climate-smart training for growers, and the supply of premium organic Growmix for healthier crop establishment.",
+    technologiesUsed: [
+      { tech: "NextJS" },
+      { tech: "TailwindCSS" },
+      { tech: "CSS" },
+      { tech: "SCSS" },
+    ],
+  },
+  
+    {
+    id: 2,
     projectName: "Bat Blogs",
     url: "https://batblogs.vercel.app/",
     image: "projects/batblogs.png",
@@ -17,7 +48,7 @@ const portfolio = [
     ],
   },
   {
-    id: 1,
+    id: 3,
     projectName: "Glohaat Ecommerce website",
     url: "https://bat-editz-glowhaat.vercel.app/",
     image: "projects/glowhaat.png",
@@ -34,9 +65,9 @@ const portfolio = [
     ],
   },
   {
-    id: 2,
+    id: 4,
     projectName: "BAT-AI",
-    url: "https://bat-ai-sigma.vercel.app/",
+    url: "https://bat-ai-sigma.vercel.app/ui/multi-modal-chat",
     image: "projects/bat-ai.png",
     projectDetail:
       "Transform your digital experience with Bat AI, an all-in-one multi-modal AI assistant.Bat AI delivers a fast, intuitive, and modern AI solution powered by cutting-edge technology to boost productivity, creativity, and user engagement.Experience smart conversations, enhanced workflows, and seamless interactions—anytime, anywhere.",
@@ -59,7 +90,7 @@ const portfolio = [
     ],
   },
   {
-    id: 3,
+    id: 5,
     projectName: "UPSN-Website",
     url: "https://upsn-website.vercel.app/",
     image: "projects/upsn.png",
@@ -81,7 +112,7 @@ const portfolio = [
     ],
   },
   {
-    id: 4,
+    id: 6,
     projectName: "BatCommerce",
     url: "https://batcommerce.vercel.app/",
     image: "projects/batcommerce.png",
@@ -106,7 +137,7 @@ const portfolio = [
     ],
   },
   {
-    id: 5,
+    id: 7,
     projectName: "Algorithimic Explorers Website",
     url: "https://algorithmic-explorers.pages.dev/",
     image: "projects/explorers.png",
@@ -131,7 +162,7 @@ const portfolio = [
     ],
   },
   {
-    id: 6,
+    id: 8,
     projectName: "Bloombreed Clone",
     url: "https://bloombreed-schools.com/",
     image: "projects/bloombreed.png",
@@ -156,7 +187,7 @@ const portfolio = [
     ],
   },
   {
-    id: 7,
+    id: 9,
     projectName: "Jumia Clone",
     url: "/domain-expired",
     image: "projects/jumia.png",
@@ -181,7 +212,7 @@ const portfolio = [
     ],
   },
   {
-    id: 8,
+    id: 10,
     projectName: "Batcamp Website",
     url: "https://batcamp-global-services.vercel.app/",
     image: "projects/batcamp.png",
@@ -206,7 +237,7 @@ const portfolio = [
     ],
   },
   {
-    id: 9,
+    id: 11,
     projectName: "Hotels.ng Clone",
     url: "https://hotels.ng/",
     image: "projects/hotels.png",
