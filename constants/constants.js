@@ -25,6 +25,14 @@ export const SKILLS = [
     title: 'Backend Developer',
     level: '94%',
   },
+  {
+    title: 'Smart Contract Developer',
+    level: '94%',
+  },
+  {
+    title: 'Ethical Hacker',
+    level: '94%',
+  },  
 ];
 
 export const TECH_STACK = [
@@ -35,12 +43,15 @@ export const TECH_STACK = [
   'NodeJS',
   'Python',
   'Django',
+  'FastAPI',
+  'Solidity',
+  'Cairo',
   'CSS',
   'SCSS',
   'TailwindCSS',
-  'Material UI',
-  'Next UI',
-  'REST API',
+  'Etherjs',
+  'React Three Fiber',
+  'Rest API',
   'MongoDB',
   'Git',
   'GitHub',
@@ -52,7 +63,7 @@ export const CONTACTS = {
 };
 export const SOCIAL_LINKS = {
   GITHUB: 'https://github.com/batcampglobalservices',
-  LINKEDIN: 'https://www.linkedin.com/in/batombari-bakpo-285455328/',
+  LINKEDIN: 'https://www.linkedin.com/in/batombari-bakpo-023091414/',
   TWITTER: 'https://x.com/BBatombari699',
-  FACEBOOK: 'https://www.facebook.com/iosamajavaid',
+  FACEBOOK: 'https://www.facebook.com/batombarib.144/',
 };

@@ -163,56 +163,6 @@ const portfolio = [
   },
   {
     id: 8,
-    projectName: "Bloombreed Clone",
-    url: "https://bloombreed-schools.com/",
-    image: "projects/bloombreed.png",
-    projectDetail:
-      "The clone of Bloombreed Schools website, a platform that provides information about their schools, their programs, admissions, and other related details.",
-    technologiesUsed: [
-      {
-        tech: "ReactJS",
-      },
-      {
-        tech: ".net",
-      },
-      {
-        tech: "REST API's",
-      },
-      {
-        tech: "Ant Design",
-      },
-      {
-        tech: "TailwindCSS",
-      },
-    ],
-  },
-  {
-    id: 9,
-    projectName: "Jumia Clone",
-    url: "/domain-expired",
-    image: "projects/jumia.png",
-    projectDetail:
-      "Jumia is ecommerce website,  where you can open your own store and sell products of different brands!",
-    technologiesUsed: [
-      {
-        tech: "Nextjs with SSR",
-      },
-      {
-        tech: "Laravel",
-      },
-      {
-        tech: "REST API's",
-      },
-      {
-        tech: "Ant Design",
-      },
-      {
-        tech: "TailwindCSS",
-      },
-    ],
-  },
-  {
-    id: 10,
     projectName: "Batcamp Website",
     url: "https://batcamp-global-services.vercel.app/",
     image: "projects/batcamp.png",
@@ -230,31 +180,6 @@ const portfolio = [
       },
       {
         tech: "MUI",
-      },
-      {
-        tech: "TailwindCSS",
-      },
-    ],
-  },
-  {
-    id: 11,
-    projectName: "Hotels.ng Clone",
-    url: "https://hotels.ng/",
-    image: "projects/hotels.png",
-    projectDetail:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam corrupti aut veritatis, adipisci natus optio dolores cum rem? Aut perferendis fugit, eos rerum totam aspernatur iure alias temporibus ipsa perspiciatis!",
-    technologiesUsed: [
-      {
-        tech: "ReactJS",
-      },
-      {
-        tech: "NodeJS",
-      },
-      {
-        tech: "REST API's",
-      },
-      {
-        tech: "Ant Design",
       },
       {
         tech: "TailwindCSS",
