@@ -186,6 +186,50 @@ const portfolio = [
       },
     ],
   },
+    {
+    id: 9,
+    projectName: "FrontendMentor Multi-step-form",
+    url: "https://frontend-mentor-bat-multi-step-form.vercel.app/",
+    image: "projects/frontendmentor-multistep-form.png",
+    projectDetail:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam corrupti aut veritatis, adipisci natus optio dolores cum rem? Aut perferendis fugit, eos rerum totam aspernatur iure alias temporibus ipsa perspiciatis!",
+    technologiesUsed: [
+      {
+        tech: "HTML",
+      },
+      {
+        tech: "CSS",
+      },
+      {
+        tech: "Javascript",
+      },
+      {
+        tech: "TailwindCSS",
+      },
+    ],
+  },
+    {
+    id: 10,
+    projectName: "FrontendMentor RSS-news-feed",
+    url: "https://frontend-mentor-feed-reader-main.vercel.app/",
+    image: "projects/frontendmentor-rss-news-feed.png",
+    projectDetail:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam corrupti aut veritatis, adipisci natus optio dolores cum rem? Aut perferendis fugit, eos rerum totam aspernatur iure alias temporibus ipsa perspiciatis!",
+    technologiesUsed: [
+      {
+        tech: "HTML",
+      },
+      {
+        tech: "CSS",
+      },
+      {
+        tech: "Javascript",
+      },
+      {
+        tech: "TailwindCSS",
+      },
+    ],
+  },
   // {
   //     id: 2,
   //     projectName: "Culyte",
