@@ -2,7 +2,7 @@ const expertise = [
     {
         id: 0,
         title: 'Full Stack Development',
-        desc: 'I am a skilled MERN stack developer with extensive experience in building robust web applications using MongoDB, Express.js, React.js, and Node.js. I possess a strong understanding of server-side rendering, API integration, and database management. With my expertise, I can deliver dynamic and efficient web solutions tailored to meet the unique requirements of clients.',
+        desc: 'I am a skilled MERN stack, DRF + React, & NextJS developer with extensive experience in building robust web applications using MongoDB, Express.js, React.js, and Node.js. I possess a strong understanding of server-side rendering, API integration, and database management. With my expertise, I can deliver dynamic and efficient web solutions tailored to meet the unique requirements of clients.',
     },
     {
         id: 1,
@@ -18,6 +18,16 @@ const expertise = [
         id: 3,
         title: 'Open Source Contributor',
         desc: "Open Source is the future. I usually take some time on weekend and contribute into opensource project. It gives me opportunity to learn from best developer's practices and also gives me a chance to help others and contribute into the community for the good.",
+    },
+    {
+        id: 4,
+        title: "Smart Contract Developer",
+        desc: "I'm a skilled Smart Contract Developer with experience in developing, testing, and deploying smart contracts on the blockchain. I possess a strong understanding of Solidity, Ethereum, and other blockchain technologies. With my expertise, I can deliver smart contracts tailored to meet the unique requirements of clients."
+    },
+    {
+        id: 5,
+        title: "Ethical Hacker",
+        desc: "I'm a skilled Ethical Hacker with experience in identifying and mitigating security vulnerabilities in web applications. I possess a strong understanding of penetration testing, vulnerability assessment, and security auditing. With my expertise, I can deliver secure web applications tailored to meet the unique requirements of clients."
     },
 ]
 

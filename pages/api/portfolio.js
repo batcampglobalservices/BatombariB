@@ -3,7 +3,7 @@ const portfolio = [
     id: 0,
     projectName: "Bat Agents",
     url: "https://bat-agents.vercel.app/",
-    image: "projects/batagents.png",
+    image: "projects/batagent.png",
     projectDetail:
       "Bat Agents is a decentralized AI agent marketplace that allows users to create, own, list, and monetize AI agents. Creators can build agents using system prompts and resources, while users can hire these agents for real tasks like coding, research, business support, content creation, and automation. The project combines AI and Web3 to make agent ownership, access, and payments more transparent.",
     technologiesUsed: [
