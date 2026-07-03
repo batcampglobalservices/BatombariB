@@ -1,6 +1,22 @@
 const portfolio = [
-  {
+    {
     id: 0,
+    projectName: "LWBat AI Learning Platform",
+    url: "https://lwbat-tutor-seven.vercel.app/",
+    image: "projects/lwbat.png",
+    projectDetail:
+      "LWBat is a language learning platform that uses AI to create personalized lessons for users. It features gamified lessons, a competitive leaderboard, and Google authentication. The platform is designed to help users learn languages in a fun and engaging way.",
+    technologiesUsed: [
+      { tech: "NextJS" },
+      { tech: "TypeScript" },
+      { tech: "TailwindCSS" },
+      { tech: "Mysql" },
+      { tech: "Prisma" },
+      { tech: "Vercel AI SDK" },
+    ],
+  },
+  {
+    id: 1,
     projectName: "Bat Agents",
     url: "https://bat-agents.vercel.app/",
     image: "projects/batagent.png",
@@ -15,8 +31,23 @@ const portfolio = [
       { tech: "0G Infrastructure" },
     ],
   },
+   {
+    id: 2,
+    projectName: "Real Estate Website  Template",
+    url: "https://batcamp-real-estate-demo.vercel.app/",
+    image: "projects/real-estate.png",
+    projectDetail:
+      "Real Estate Website is a website template for potential real estate business owners",
+    technologiesUsed: [
+      { tech: "React" },
+      { tech: "TailwindCSS" },
+      { tech: "Three.js"},
+      { tech: "CSS" },
+      { tech: "SCSS" },
+    ],
+  },
   {
-    id: 1,
+    id: 3,
     projectName: "Fablyte Africa Company Profile",
     url: "https://fablyte-website.vercel.app/",
     image: "projects/fablyte.png",
@@ -31,7 +62,7 @@ const portfolio = [
   },
 
   {
-    id: 2,
+    id: 4,
     projectName: "Bat Blogs",
     url: "https://batblogs.vercel.app/",
     image: "projects/batblogs.png",
@@ -48,7 +79,7 @@ const portfolio = [
     ],
   },
   {
-    id: 3,
+    id: 5,
     projectName: "Glohaat Ecommerce website",
     url: "https://bat-editz-glowhaat.vercel.app/",
     image: "projects/glowhaat.png",
@@ -65,7 +96,7 @@ const portfolio = [
     ],
   },
   {
-    id: 4,
+    id: 6,
     projectName: "BAT-AI",
     url: "https://bat-ai-sigma.vercel.app/ui/multi-modal-chat",
     image: "projects/bat-ai.png",
@@ -90,7 +121,7 @@ const portfolio = [
     ],
   },
   {
-    id: 5,
+    id: 7,
     projectName: "UPSN-Website",
     url: "https://upsn-website.vercel.app/",
     image: "projects/upsn.png",
@@ -112,7 +143,7 @@ const portfolio = [
     ],
   },
   {
-    id: 6,
+    id: 8,
     projectName: "BatCommerce",
     url: "https://batcommerce.vercel.app/",
     image: "projects/batcommerce.png",
@@ -137,7 +168,7 @@ const portfolio = [
     ],
   },
   {
-    id: 7,
+    id: 9,
     projectName: "Algorithimic Explorers Website",
     url: "https://algorithmic-explorers.pages.dev/",
     image: "projects/explorers.png",
@@ -162,7 +193,7 @@ const portfolio = [
     ],
   },
   {
-    id: 8,
+    id: 10,
     projectName: "Batcamp Website",
     url: "https://batcamp-global-services.vercel.app/",
     image: "projects/batcamp.png",
@@ -187,7 +218,7 @@ const portfolio = [
     ],
   },
   {
-    id: 9,
+    id: 11,
     projectName: "FrontendMentor Multi-step-form",
     url: "https://frontend-mentor-bat-multi-step-form.vercel.app/",
     image: "projects/frontendmentor-multi-step-form.png",
@@ -209,7 +240,7 @@ const portfolio = [
     ],
   },
   {
-    id: 10,
+    id: 12,
     projectName: "FrontendMentor RSS-news-feed",
     url: "https://frontend-mentor-feed-reader-main.vercel.app/",
     image: "projects/frontendmentor-rss-news-feed.png",
@@ -231,7 +262,7 @@ const portfolio = [
     ],
   },
   // {
-  //     id: 2,
+  //     id: 13,
   //     projectName: "Culyte",
   //     url: "https://culyte.com",
   //     image: "projects/culyte.png",
