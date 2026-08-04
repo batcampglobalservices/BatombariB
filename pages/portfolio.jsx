@@ -11,9 +11,9 @@ const Portfolio = () => {
 
     const { isLoading, error, data } = useQuery({
         queryKey: ['portfolio'],
-        queryFn: () => axios.get('api/portfolio')
+        queryFn: () => axios.get('/api/portfolio')
             .then(({ data }) => data)
-            .catch(error => console.error('Error fetching testimonials:', error))
+            .catch(error => console.error('Error fetching portfolio:', error))
     })
     return (
         <BannerLayout>
@@ -21,15 +21,16 @@ const Portfolio = () => {
 
                 {
                     isLoading ?
-                        [1, 2, 3, 4].map(() => (
-                            <ImageAndParagraphSkeleton className={"w-full object-cover"} />
+                        [1, 2, 3, 4].map((item, idx) => (
+                            <ImageAndParagraphSkeleton key={idx} className={"w-full object-cover"} />
                         ))
                         :
-                        data?.map((data, key) => (
-                            <PortfolioCard key={key} data={data} />
+                        data?.map((item, key) => (
+                            <PortfolioCard key={item._id || item.id || key} data={item} />
                         ))
 
                 }
+
 
 
             </div >

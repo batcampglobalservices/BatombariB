@@ -1,7 +1,7 @@
-import dbConnect from '../../utils/dbConnect';
-import Project from '../../models/Project';
+import dbConnect from '../../../utils/dbConnect';
+import Project from '../../../models/Project';
 
-const fallbackPortfolio = [
+const initialProjects = [
   {
     id: 0,
     projectName: "LWBat AI Learning Platform",
@@ -17,6 +17,7 @@ const fallbackPortfolio = [
       { tech: "Prisma" },
       { tech: "Vercel AI SDK" },
     ],
+    order: 0,
   },
   {
     id: 1,
@@ -33,6 +34,7 @@ const fallbackPortfolio = [
       { tech: "0G AI" },
       { tech: "0G Infrastructure" },
     ],
+    order: 1,
   },
   {
     id: 2,
@@ -48,6 +50,7 @@ const fallbackPortfolio = [
       { tech: "CSS" },
       { tech: "SCSS" },
     ],
+    order: 2,
   },
   {
     id: 3,
@@ -62,6 +65,7 @@ const fallbackPortfolio = [
       { tech: "CSS" },
       { tech: "SCSS" },
     ],
+    order: 3,
   },
   {
     id: 4,
@@ -79,6 +83,7 @@ const fallbackPortfolio = [
       { tech: "Scss" },
       { tech: "AI SDK" },
     ],
+    order: 4,
   },
   {
     id: 5,
@@ -96,6 +101,7 @@ const fallbackPortfolio = [
       { tech: "AI SDK" },
       { tech: "Stripe" },
     ],
+    order: 5,
   },
   {
     id: 6,
@@ -111,6 +117,7 @@ const fallbackPortfolio = [
       { tech: "Material UI" },
       { tech: "TailwindCSS" },
     ],
+    order: 6,
   },
   {
     id: 7,
@@ -125,6 +132,7 @@ const fallbackPortfolio = [
       { tech: "Django" },
       { tech: "TailwindCSS" },
     ],
+    order: 7,
   },
   {
     id: 8,
@@ -140,6 +148,7 @@ const fallbackPortfolio = [
       { tech: "Ant Design" },
       { tech: "TailwindCSS" },
     ],
+    order: 8,
   },
   {
     id: 9,
@@ -155,6 +164,7 @@ const fallbackPortfolio = [
       { tech: "Ant Design" },
       { tech: "TailwindCSS" },
     ],
+    order: 9,
   },
   {
     id: 10,
@@ -170,6 +180,7 @@ const fallbackPortfolio = [
       { tech: "MUI" },
       { tech: "TailwindCSS" },
     ],
+    order: 10,
   },
   {
     id: 11,
@@ -184,6 +195,7 @@ const fallbackPortfolio = [
       { tech: "Javascript" },
       { tech: "TailwindCSS" },
     ],
+    order: 11,
   },
   {
     id: 12,
@@ -198,75 +210,46 @@ const fallbackPortfolio = [
       { tech: "Javascript" },
       { tech: "TailwindCSS" },
     ],
+    order: 12,
   },
 ];
 
 export default async function handler(req, res) {
-  const { method } = req;
-
   try {
     await dbConnect();
 
-    switch (method) {
-      case 'GET': {
-        const projects = await Project.find({}).sort({ order: 1, createdAt: -1 });
+    if (req.method === 'POST' || req.method === 'GET') {
+      const force = req.query.force === 'true';
+      const existingCount = await Project.countDocuments();
 
-        // If database is empty, return static fallback projects
-        if (!projects || projects.length === 0) {
-          return res.status(200).json(fallbackPortfolio);
-        }
-
-        return res.status(200).json(projects);
-      }
-
-      case 'POST': {
-        const { projectName, url, image, projectDetail, technologiesUsed, order } = req.body;
-
-        if (!projectName || !image || !projectDetail) {
-          return res.status(400).json({
-            success: false,
-            message: 'Please provide projectName, image, and projectDetail.',
-          });
-        }
-
-        // Format technologiesUsed if passed as array of strings
-        let formattedTech = technologiesUsed || [];
-        if (Array.isArray(technologiesUsed) && technologiesUsed.length > 0) {
-          if (typeof technologiesUsed[0] === 'string') {
-            formattedTech = technologiesUsed.map((t) => ({ tech: t }));
-          }
-        }
-
-        const project = await Project.create({
-          projectName,
-          url: url || '#',
-          image,
-          projectDetail,
-          technologiesUsed: formattedTech,
-          order: order !== undefined ? Number(order) : 0,
-        });
-
-        return res.status(201).json({
+      if (existingCount > 0 && !force) {
+        return res.status(200).json({
           success: true,
-          data: project,
+          message: `Database already contains ${existingCount} projects. Use ?force=true to re-seed.`,
+          count: existingCount,
         });
       }
 
-      default:
-        res.setHeader('Allow', ['GET', 'POST']);
-        return res.status(405).json({ success: false, message: `Method ${method} Not Allowed` });
+      if (force) {
+        await Project.deleteMany({});
+      }
+
+      const createdProjects = await Project.insertMany(initialProjects);
+
+      return res.status(201).json({
+        success: true,
+        message: `Successfully seeded ${createdProjects.length} initial portfolio projects into MongoDB.`,
+        data: createdProjects,
+      });
+    } else {
+      res.setHeader('Allow', ['GET', 'POST']);
+      return res.status(405).json({ success: false, message: `Method ${req.method} Not Allowed` });
     }
   } catch (error) {
-    console.error('Portfolio API Error:', error);
-
-    // Fallback on GET error so frontend remains functional
-    if (method === 'GET') {
-      return res.status(200).json(fallbackPortfolio);
-    }
-
+    console.error('Seed API error:', error);
     return res.status(500).json({
       success: false,
-      message: 'Server Error connecting to database',
+      message: 'Failed to seed database',
       error: error.message,
     });
   }

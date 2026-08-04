@@ -12,9 +12,9 @@ function Background() {
 
     const { isLoading, error, data } = useQuery({
         queryKey: ['background'],
-        queryFn: () => axios.get('api/background')
+        queryFn: () => axios.get('/api/background')
             .then(({ data }) => data)
-            .catch(error => console.error('Error fetching testimonials:', error))
+            .catch(error => console.error('Error fetching background:', error))
     })
 
     return (
@@ -23,12 +23,12 @@ function Background() {
                 <div className="flex flex-col gap-y-4 order-2 md:order-1  md:mr-12">
                     <div className="mt-10 md:mt-0 text-xl text-Snow font-semibold">Education</div>
                     {isLoading ?
-                        [1, 2, 3].map(() => (
-                            <ParagraphSkeleton className={"p-8 h-full w-full relative"} />
+                        [1, 2, 3].map((item, idx) => (
+                            <ParagraphSkeleton key={idx} className={"p-8 h-full w-full relative"} />
                         ))
                         :
                         data && data[0]?.eduCards?.map((data, key) => (
-                            <Edu_Card key={key} data={data} />
+                            <Edu_Card key={data._id || data.id || key} data={data} />
                         ))
                     }
 
@@ -38,18 +38,19 @@ function Background() {
                         <div className=" md:pt-0 pt-4 text-xl text-Snow font-semibold">Experience</div>
 
                         {isLoading ?
-                            [1, 2, 3].map(() => (
-                                <ParagraphSkeleton className={"p-8 h-full w-full relative"} />
+                            [1, 2, 3].map((item, idx) => (
+                                <ParagraphSkeleton key={idx} className={"p-8 h-full w-full relative"} />
                             ))
                             :
                             data && data[1]?.expCards?.map((data, key) => (
-                                <Exp_Card key={key} data={data} />
+                                <Exp_Card key={data._id || data.id || key} data={data} />
                             ))
                         }
 
                     </div>
                 </div>
             </div>
+
             <Footer />
         </BannerLayout>
     );

@@ -48,8 +48,11 @@ const PortfolioCard = ({ data }) => {
                     {data?.projectDetail}
                 </p>
                 <div className="text-sm flex flex-wrap gap-3 py-2">
-                    {data.technologiesUsed.map((index, key) => <Badge key={key} title={index.tech} />)}
+                    {data?.technologiesUsed?.map((item, key) => (
+                        <Badge key={key} title={typeof item === 'string' ? item : item?.tech} />
+                    ))}
                 </div>
+
             </div>
         </div>
     )
