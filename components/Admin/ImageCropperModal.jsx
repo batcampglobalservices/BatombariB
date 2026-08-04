@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { FaTimes, FaCrop, FaSearchPlus, FaSearchMinus, FaUpload, FaRedo } from 'react-icons/fa';
+import axios from 'axios';
+import { FaTimes, FaCrop, FaSearchPlus, FaSearchMinus, FaUpload, FaRedo, FaCloudUploadAlt } from 'react-icons/fa';
 
 export default function ImageCropperModal({ isOpen, onClose, onCropComplete, initialImage = '' }) {
   const [imageSrc, setImageSrc] = useState(initialImage);
@@ -7,8 +8,8 @@ export default function ImageCropperModal({ isOpen, onClose, onCropComplete, ini
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [uploading, setUploading] = useState(false);
 
-  const canvasRef = useRef(null);
   const imgRef = useRef(null);
   const fileInputRef = useRef(null);
 
@@ -48,25 +49,23 @@ export default function ImageCropperModal({ isOpen, onClose, onCropComplete, ini
     setIsDragging(false);
   };
 
-  const handleCropAndSave = () => {
+  const handleCropAndSave = async () => {
     if (!imageSrc) return;
+
+    setUploading(true);
 
     const img = new Image();
     img.crossOrigin = 'anonymous';
-    img.onload = () => {
+    img.onload = async () => {
       const canvas = document.createElement('canvas');
       const size = 400; // Output cropped image size
       canvas.width = size;
       canvas.height = size;
       const ctx = canvas.getContext('2d');
 
-      // Clear & Draw Circular Crop Canvas
       ctx.clearRect(0, 0, size, size);
-      
-      // Save context state
       ctx.save();
       
-      // Draw image with pan and scale offset centered
       const scale = zoom;
       const aspect = img.width / img.height;
       let drawW = size * scale;
@@ -83,8 +82,25 @@ export default function ImageCropperModal({ isOpen, onClose, onCropComplete, ini
       ctx.restore();
 
       const croppedDataUrl = canvas.toDataURL('image/jpeg', 0.9);
-      onCropComplete(croppedDataUrl);
-      onClose();
+
+      try {
+        // Upload to Cloudinary via server API route
+        const uploadRes = await axios.post('/api/upload', {
+          image: croppedDataUrl,
+          folder: 'portfolio_profile',
+        });
+
+        const finalUrl = uploadRes.data?.url || croppedDataUrl;
+        onCropComplete(finalUrl);
+        onClose();
+      } catch (err) {
+        console.error('Cloudinary upload error:', err);
+        // Fallback to canvas data URL if network/Cloudinary error occurs
+        onCropComplete(croppedDataUrl);
+        onClose();
+      } finally {
+        setUploading(false);
+      }
     };
     img.src = imageSrc;
   };
@@ -97,7 +113,7 @@ export default function ImageCropperModal({ isOpen, onClose, onCropComplete, ini
         {/* Header */}
         <div className="flex justify-between items-center px-6 py-4 border-b border-LightGray/10 bg-DeepNightBlack">
           <h3 className="text-base font-bold text-Snow flex items-center gap-2">
-            <FaCrop className="text-yellow" /> Crop & Adjust Profile Photo
+            <FaCrop className="text-yellow" /> Crop & Upload Profile Avatar
           </h3>
           <button onClick={onClose} className="text-LightGray hover:text-Snow transition-colors">
             <FaTimes />
@@ -138,7 +154,7 @@ export default function ImageCropperModal({ isOpen, onClose, onCropComplete, ini
           </div>
 
           <p className="text-[11px] text-LightGray/60 mt-3">
-            💡 Drag photo to position within the circle frame. Use slider below to zoom.
+            💡 Drag photo to position within circle frame. Use slider to zoom.
           </p>
 
           {/* Controls */}
@@ -166,7 +182,7 @@ export default function ImageCropperModal({ isOpen, onClose, onCropComplete, ini
               </button>
             </div>
 
-            {/* File Upload Button & URL input */}
+            {/* File Upload Button */}
             <div className="flex flex-col sm:flex-row gap-2">
               <input
                 type="file"
@@ -180,7 +196,7 @@ export default function ImageCropperModal({ isOpen, onClose, onCropComplete, ini
                 onClick={() => fileInputRef.current?.click()}
                 className="flex-1 bg-DeepNightBlack hover:bg-DeepNightBlack/80 border border-LightGray/20 text-Snow text-xs py-2.5 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors"
               >
-                <FaUpload className="text-yellow" /> Upload Photo File
+                <FaUpload className="text-yellow" /> Select Photo File
               </button>
             </div>
           </div>
@@ -198,10 +214,18 @@ export default function ImageCropperModal({ isOpen, onClose, onCropComplete, ini
           <button
             type="button"
             onClick={handleCropAndSave}
-            disabled={!imageSrc}
+            disabled={!imageSrc || uploading}
             className="px-5 py-2 rounded-xl bg-yellow text-DeepNightBlack font-bold text-xs hover:bg-yellow/90 transition-all shadow-lg flex items-center gap-1.5"
           >
-            <FaCrop /> Apply & Save Photo
+            {uploading ? (
+              <>
+                <FaCloudUploadAlt className="animate-bounce" /> Uploading to Cloudinary...
+              </>
+            ) : (
+              <>
+                <FaCloudUploadAlt /> Crop & Save to Cloudinary
+              </>
+            )}
           </button>
         </div>
       </div>

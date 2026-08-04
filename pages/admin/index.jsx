@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import axios from 'axios';
@@ -20,7 +20,8 @@ import {
   FaTools,
   FaShareAlt,
   FaFilePdf,
-  FaCrop
+  FaCrop,
+  FaCloudUploadAlt
 } from 'react-icons/fa';
 import BannerLayout from '../../components/Common/BannerLayout';
 import Footer from '../../components/Footer';
@@ -39,6 +40,9 @@ export default function AdminCMS() {
   const [isDeleteProjectModalOpen, setIsDeleteProjectModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
   const [projectToDelete, setProjectToDelete] = useState(null);
+  const [uploadingProjectImage, setUploadingProjectImage] = useState(false);
+  const projectFileInputRef = useRef(null);
+
 
   // Profile State
   const [profile, setProfile] = useState({
@@ -290,6 +294,33 @@ export default function AdminCMS() {
   const handleRemoveProjectTech = (techToRemove) => {
     setTechList(techList.filter((t) => t !== techToRemove));
   };
+
+  const handleProjectImageUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async () => {
+      setUploadingProjectImage(true);
+      try {
+        const res = await axios.post('/api/upload', {
+          image: reader.result,
+          folder: 'portfolio_projects',
+        });
+        if (res.data?.url) {
+          setProjectFormData((prev) => ({ ...prev, image: res.data.url }));
+          showMessage('Image uploaded to Cloudinary successfully!');
+        }
+      } catch (err) {
+        console.error('Project image upload error:', err);
+        showMessage('Failed to upload image to Cloudinary', 'error');
+      } finally {
+        setUploadingProjectImage(false);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
 
   const handleProjectFormSubmit = async (e) => {
     e.preventDefault();
@@ -1047,14 +1078,34 @@ export default function AdminCMS() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-LightGray mb-1">Image URL or Path *</label>
-                  <input
-                    type="text"
-                    required
-                    value={projectFormData.image}
-                    onChange={(e) => setProjectFormData({ ...projectFormData, image: e.target.value })}
-                    className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2.5 text-Snow text-sm focus:border-yellow focus:outline-none"
-                  />
+                  <label className="block text-xs font-semibold text-LightGray mb-1">Image URL or Cloudinary Link *</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      required
+                      placeholder="Image URL or upload file"
+                      value={projectFormData.image}
+                      onChange={(e) => setProjectFormData({ ...projectFormData, image: e.target.value })}
+                      className="flex-1 bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2.5 text-Snow text-xs focus:border-yellow focus:outline-none"
+                    />
+                    <input
+                      type="file"
+                      ref={projectFileInputRef}
+                      accept="image/*"
+                      onChange={handleProjectImageUpload}
+                      className="hidden"
+                    />
+                    <button
+                      type="button"
+                      disabled={uploadingProjectImage}
+                      onClick={() => projectFileInputRef.current?.click()}
+                      className="bg-EveningBlack hover:bg-DeepNightBlack border border-yellow/40 hover:border-yellow text-yellow px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all"
+                      title="Upload to Cloudinary"
+                    >
+                      <FaCloudUploadAlt className={uploadingProjectImage ? 'animate-bounce' : ''} />
+                      {uploadingProjectImage ? 'Uploading...' : 'Upload'}
+                    </button>
+                  </div>
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-LightGray mb-1">Live Demo URL</label>
@@ -1066,6 +1117,7 @@ export default function AdminCMS() {
                   />
                 </div>
               </div>
+
 
               <div>
                 <label className="block text-xs font-semibold text-LightGray mb-1">Project Description *</label>
