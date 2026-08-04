@@ -20,7 +20,10 @@ import {
   FaShareAlt,
   FaFilePdf,
   FaCrop,
-  FaCloudUploadAlt
+  FaCloudUploadAlt,
+  FaGripVertical,
+  FaArrowUp,
+  FaArrowDown
 } from 'react-icons/fa';
 import { useQueryClient } from '@tanstack/react-query';
 import BannerLayout from '../../components/Common/BannerLayout';
@@ -44,6 +47,16 @@ export default function AdminCMS() {
   const [projectToDelete, setProjectToDelete] = useState(null);
   const [uploadingProjectImage, setUploadingProjectImage] = useState(false);
   const projectFileInputRef = useRef(null);
+
+  // Drag & Drop State
+  const [draggedProjectIndex, setDraggedProjectIndex] = useState(null);
+  const [dragOverProjectIndex, setDragOverProjectIndex] = useState(null);
+
+  const [draggedEduIndex, setDraggedEduIndex] = useState(null);
+  const [dragOverEduIndex, setDragOverEduIndex] = useState(null);
+
+  const [draggedExpIndex, setDraggedExpIndex] = useState(null);
+  const [dragOverExpIndex, setDragOverExpIndex] = useState(null);
 
   // Profile State
   const [profile, setProfile] = useState({
@@ -147,6 +160,158 @@ export default function AdminCMS() {
     }
   };
 
+  // --- Drag and Drop Helper & Actions ---
+  const reorderArray = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+    return result;
+  };
+
+  // Projects DND Actions
+  const handleSaveProjectsOrder = async (newProjectsList) => {
+    setSubmitting(true);
+    try {
+      const payload = newProjectsList.map((p, idx) => ({
+        id: p._id || p.id,
+        order: idx,
+      }));
+      await axios.put('/api/portfolio/reorder', { items: payload });
+      queryClient.invalidateQueries({ queryKey: ['portfolio'] });
+      showMessage('Projects display order updated!');
+    } catch (err) {
+      console.error('Error saving projects order:', err);
+      showMessage('Failed to save project order', 'error');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleProjectDragStart = (e, index) => {
+    setDraggedProjectIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+    if (e.dataTransfer.setData) {
+      e.dataTransfer.setData('text/plain', index.toString());
+    }
+  };
+
+  const handleProjectDragOver = (e, index) => {
+    e.preventDefault();
+    if (dragOverProjectIndex !== index) {
+      setDragOverProjectIndex(index);
+    }
+  };
+
+  const handleProjectDrop = async (e, dropIndex) => {
+    e.preventDefault();
+    if (draggedProjectIndex === null || draggedProjectIndex === dropIndex) {
+      setDraggedProjectIndex(null);
+      setDragOverProjectIndex(null);
+      return;
+    }
+
+    const updatedProjects = reorderArray(projects, draggedProjectIndex, dropIndex);
+    setProjects(updatedProjects);
+    setDraggedProjectIndex(null);
+    setDragOverProjectIndex(null);
+    await handleSaveProjectsOrder(updatedProjects);
+  };
+
+  const handleMoveProject = async (index, direction) => {
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= projects.length) return;
+
+    const updatedProjects = reorderArray(projects, index, targetIndex);
+    setProjects(updatedProjects);
+    await handleSaveProjectsOrder(updatedProjects);
+  };
+
+  // Education DND Actions
+  const handleEduDragStart = (e, index) => {
+    setDraggedEduIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleEduDragOver = (e, index) => {
+    e.preventDefault();
+    if (dragOverEduIndex !== index) {
+      setDragOverEduIndex(index);
+    }
+  };
+
+  const handleEduDrop = async (e, dropIndex) => {
+    e.preventDefault();
+    if (draggedEduIndex === null || draggedEduIndex === dropIndex) {
+      setDraggedEduIndex(null);
+      setDragOverEduIndex(null);
+      return;
+    }
+
+    const updatedEdu = reorderArray(profile.education || [], draggedEduIndex, dropIndex);
+    setDraggedEduIndex(null);
+    setDragOverEduIndex(null);
+
+    const updatedProfile = { ...profile, education: updatedEdu };
+    setProfile(updatedProfile);
+    await handleSaveProfile(updatedProfile);
+    queryClient.invalidateQueries({ queryKey: ['background'] });
+  };
+
+  const handleMoveEdu = async (index, direction) => {
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    const currentEdu = profile.education || [];
+    if (targetIndex < 0 || targetIndex >= currentEdu.length) return;
+
+    const updatedEdu = reorderArray(currentEdu, index, targetIndex);
+    const updatedProfile = { ...profile, education: updatedEdu };
+    setProfile(updatedProfile);
+    await handleSaveProfile(updatedProfile);
+    queryClient.invalidateQueries({ queryKey: ['background'] });
+  };
+
+  // Experience DND Actions
+  const handleExpDragStart = (e, index) => {
+    setDraggedExpIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleExpDragOver = (e, index) => {
+    e.preventDefault();
+    if (dragOverExpIndex !== index) {
+      setDragOverExpIndex(index);
+    }
+  };
+
+  const handleExpDrop = async (e, dropIndex) => {
+    e.preventDefault();
+    if (draggedExpIndex === null || draggedExpIndex === dropIndex) {
+      setDraggedExpIndex(null);
+      setDragOverExpIndex(null);
+      return;
+    }
+
+    const updatedExp = reorderArray(profile.experience || [], draggedExpIndex, dropIndex);
+    setDraggedExpIndex(null);
+    setDragOverExpIndex(null);
+
+    const updatedProfile = { ...profile, experience: updatedExp };
+    setProfile(updatedProfile);
+    await handleSaveProfile(updatedProfile);
+    queryClient.invalidateQueries({ queryKey: ['background'] });
+  };
+
+  const handleMoveExp = async (index, direction) => {
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    const currentExp = profile.experience || [];
+    if (targetIndex < 0 || targetIndex >= currentExp.length) return;
+
+    const updatedExp = reorderArray(currentExp, index, targetIndex);
+    const updatedProfile = { ...profile, experience: updatedExp };
+    setProfile(updatedProfile);
+    await handleSaveProfile(updatedProfile);
+    queryClient.invalidateQueries({ queryKey: ['background'] });
+  };
+
   // --- Profile & Photo Actions ---
   const handleSaveProfile = async (updatedData = profile) => {
     setSubmitting(true);
@@ -156,6 +321,7 @@ export default function AdminCMS() {
         setProfile(res.data.data);
         queryClient.setQueryData(['profile'], res.data.data);
         queryClient.invalidateQueries({ queryKey: ['profile'] });
+        queryClient.invalidateQueries({ queryKey: ['background'] });
       }
       showMessage('Profile settings saved successfully!');
     } catch (err) {
@@ -567,6 +733,13 @@ export default function AdminCMS() {
                   </button>
                 </div>
 
+                <div className="mb-4 p-3 bg-EveningBlack rounded-xl border border-Green/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-LightGray shadow-md">
+                  <span className="flex items-center gap-2">
+                    <FaGripVertical className="text-Green text-sm" /> Drag cards using the grip handle or click <FaArrowUp className="inline text-Green" /> <FaArrowDown className="inline text-Green" /> to arrange display order.
+                  </span>
+                  <span className="text-[11px] text-Green font-bold font-circular-bold bg-DeepNightBlack px-2.5 py-1 rounded-lg border border-Green/30">Auto-saves to database</span>
+                </div>
+
                 {loadingProjects ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {[1, 2, 3].map((i) => (
@@ -589,7 +762,21 @@ export default function AdminCMS() {
                       return (
                         <div
                           key={project._id || project.id || idx}
-                          className="bg-EveningBlack rounded-2xl border border-LightGray/10 overflow-hidden shadow-xl hover:border-Green/40 transition-all duration-300 flex flex-col justify-between group"
+                          draggable={!searchQuery}
+                          onDragStart={(e) => handleProjectDragStart(e, idx)}
+                          onDragOver={(e) => handleProjectDragOver(e, idx)}
+                          onDrop={(e) => handleProjectDrop(e, idx)}
+                          onDragEnd={() => {
+                            setDraggedProjectIndex(null);
+                            setDragOverProjectIndex(null);
+                          }}
+                          className={`bg-EveningBlack rounded-2xl border overflow-hidden shadow-xl transition-all duration-300 flex flex-col justify-between group ${
+                            draggedProjectIndex === idx
+                              ? 'opacity-40 border-dashed border-Green scale-95'
+                              : dragOverProjectIndex === idx
+                              ? 'border-2 border-Green shadow-2xl scale-[1.02] bg-DeepNightBlack/90'
+                              : 'border-LightGray/10 hover:border-Green/40'
+                          }`}
                         >
                           <div>
                             <div className="relative h-44 bg-DeepNightBlack overflow-hidden">
@@ -602,6 +789,34 @@ export default function AdminCMS() {
                                   e.target.src = 'https://via.placeholder.com/600x400?text=Project+Image';
                                 }}
                               />
+                              {/* Position Badge & Drag Controls */}
+                              <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-DeepNightBlack/90 border border-Green/30 backdrop-blur-md px-2.5 py-1 rounded-lg shadow-lg">
+                                <span className="cursor-grab active:cursor-grabbing text-Green hover:text-white p-0.5 transition-colors" title="Drag to reorder">
+                                  <FaGripVertical className="text-xs" />
+                                </span>
+                                <span className="text-[11px] font-bold text-Snow font-circular-bold">#{idx + 1}</span>
+                                <div className="flex gap-0.5 ml-1 border-l border-LightGray/20 pl-1">
+                                  <button
+                                    type="button"
+                                    disabled={idx === 0}
+                                    onClick={() => handleMoveProject(idx, 'up')}
+                                    className="p-0.5 text-LightGray hover:text-Green disabled:opacity-30 disabled:hover:text-LightGray transition-colors"
+                                    title="Move Up"
+                                  >
+                                    <FaArrowUp className="text-[10px]" />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    disabled={idx === filteredProjects.length - 1}
+                                    onClick={() => handleMoveProject(idx, 'down')}
+                                    className="p-0.5 text-LightGray hover:text-Green disabled:opacity-30 disabled:hover:text-LightGray transition-colors"
+                                    title="Move Down"
+                                  >
+                                    <FaArrowDown className="text-[10px]" />
+                                  </button>
+                                </div>
+                              </div>
+
                               <div className="absolute top-3 right-3 flex gap-2">
                                 <button
                                   onClick={() => handleOpenEditProjectModal(project)}
@@ -842,7 +1057,7 @@ export default function AdminCMS() {
               <div className="space-y-8">
                 {/* Education Section */}
                 <div className="bg-EveningBlack p-6 rounded-2xl border border-LightGray/10 shadow-xl">
-                  <div className="flex justify-between items-center mb-4">
+                  <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-4">
                     <h3 className="text-base font-bold text-Snow flex items-center gap-2 font-circular-bold">
                       <FaGraduationCap className="text-Green" /> Education Cards
                     </h3>
@@ -852,35 +1067,84 @@ export default function AdminCMS() {
                         setEduForm({ title: '', degree: '', detail: '', year: '' });
                         setIsEduModalOpen(true);
                       }}
-                      className="bg-Green text-DeepNightBlack font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-md hover:bg-Green/90 transition-all"
+                      className="bg-Green text-DeepNightBlack font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-md hover:bg-Green/90 transition-all self-start sm:self-auto"
                     >
                       <FaPlus /> Add Education
                     </button>
                   </div>
 
+                  <div className="mb-4 text-xs text-LightGray flex items-center gap-1.5">
+                    <FaGripVertical className="text-Green" /> Drag cards or click <FaArrowUp className="inline text-Green" /> <FaArrowDown className="inline text-Green" /> to rearrange Education entries.
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {(profile.education || []).map((edu, idx) => (
-                      <div key={idx} className="bg-DeepNightBlack p-4 rounded-xl border border-LightGray/10 flex justify-between items-start">
-                        <div>
-                          <h4 className="font-bold text-sm text-Snow font-circular-bold">{edu.title}</h4>
-                          <p className="text-xs text-Green font-medium mt-0.5">{edu.degree}</p>
-                          <p className="text-xs text-LightGray/70 mt-1 font-circular-light">{edu.detail}</p>
-                          <span className="text-[10px] text-LightGray/50 mt-2 block">{edu.year}</span>
+                      <div
+                        key={idx}
+                        draggable={true}
+                        onDragStart={(e) => handleEduDragStart(e, idx)}
+                        onDragOver={(e) => handleEduDragOver(e, idx)}
+                        onDrop={(e) => handleEduDrop(e, idx)}
+                        onDragEnd={() => {
+                          setDraggedEduIndex(null);
+                          setDragOverEduIndex(null);
+                        }}
+                        className={`bg-DeepNightBlack p-4 rounded-xl border flex justify-between items-start transition-all duration-300 ${
+                          draggedEduIndex === idx
+                            ? 'opacity-40 border-dashed border-Green scale-95'
+                            : dragOverEduIndex === idx
+                            ? 'border-2 border-Green shadow-xl scale-[1.01]'
+                            : 'border-LightGray/10 hover:border-Green/30'
+                        }`}
+                      >
+                        <div className="flex gap-3 items-start">
+                          <div className="flex flex-col items-center gap-1 mt-1 bg-EveningBlack/80 p-1 rounded-lg border border-LightGray/10">
+                            <span className="cursor-grab active:cursor-grabbing text-Green hover:text-white p-0.5 transition-colors" title="Drag to reorder">
+                              <FaGripVertical className="text-xs" />
+                            </span>
+                            <span className="text-[10px] font-bold text-Snow">#{idx + 1}</span>
+                          </div>
+                          <div>
+                            <h4 className="font-bold text-sm text-Snow font-circular-bold">{edu.title}</h4>
+                            <p className="text-xs text-Green font-medium mt-0.5">{edu.degree}</p>
+                            <p className="text-xs text-LightGray/70 mt-1 font-circular-light">{edu.detail}</p>
+                            <span className="text-[10px] text-LightGray/50 mt-2 block">{edu.year}</span>
+                          </div>
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex items-center gap-2">
+                          <div className="flex flex-col gap-0.5 border-r border-LightGray/10 pr-2 mr-1">
+                            <button
+                              type="button"
+                              disabled={idx === 0}
+                              onClick={() => handleMoveEdu(idx, 'up')}
+                              className="p-1 text-LightGray hover:text-Green disabled:opacity-30 transition-colors"
+                              title="Move Up"
+                            >
+                              <FaArrowUp className="text-[10px]" />
+                            </button>
+                            <button
+                              type="button"
+                              disabled={idx === (profile.education || []).length - 1}
+                              onClick={() => handleMoveEdu(idx, 'down')}
+                              className="p-1 text-LightGray hover:text-Green disabled:opacity-30 transition-colors"
+                              title="Move Down"
+                            >
+                              <FaArrowDown className="text-[10px]" />
+                            </button>
+                          </div>
                           <button
                             onClick={() => {
                               setEditingEduIndex(idx);
                               setEduForm(edu);
                               setIsEduModalOpen(true);
                             }}
-                            className="text-Green text-xs hover:underline transition-all"
+                            className="text-Green text-xs hover:underline transition-all p-1"
                           >
                             <FaEdit />
                           </button>
                           <button
                             onClick={() => handleDeleteEdu(idx)}
-                            className="text-red-400 text-xs hover:underline transition-all"
+                            className="text-red-400 text-xs hover:underline transition-all p-1"
                           >
                             <FaTrash />
                           </button>
@@ -892,7 +1156,7 @@ export default function AdminCMS() {
 
                 {/* Experience Section */}
                 <div className="bg-EveningBlack p-6 rounded-2xl border border-LightGray/10 shadow-xl">
-                  <div className="flex justify-between items-center mb-4">
+                  <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-4">
                     <h3 className="text-base font-bold text-Snow flex items-center gap-2 font-circular-bold">
                       <FaGraduationCap className="text-Green" /> Experience Cards
                     </h3>
@@ -902,35 +1166,84 @@ export default function AdminCMS() {
                         setExpForm({ title: '', role: '', url: '', desc: '', year: '', location: '' });
                         setIsExpModalOpen(true);
                       }}
-                      className="bg-Green text-DeepNightBlack font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-md hover:bg-Green/90 transition-all"
+                      className="bg-Green text-DeepNightBlack font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-md hover:bg-Green/90 transition-all self-start sm:self-auto"
                     >
                       <FaPlus /> Add Experience
                     </button>
                   </div>
 
+                  <div className="mb-4 text-xs text-LightGray flex items-center gap-1.5">
+                    <FaGripVertical className="text-Green" /> Drag cards or click <FaArrowUp className="inline text-Green" /> <FaArrowDown className="inline text-Green" /> to rearrange Experience entries.
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {(profile.experience || []).map((exp, idx) => (
-                      <div key={idx} className="bg-DeepNightBlack p-4 rounded-xl border border-LightGray/10 flex justify-between items-start">
-                        <div>
-                          <h4 className="font-bold text-sm text-Snow font-circular-bold">{exp.title}</h4>
-                          <p className="text-xs text-Green font-medium mt-0.5">{exp.role} ({exp.location})</p>
-                          <p className="text-xs text-LightGray/70 mt-1 font-circular-light">{exp.desc}</p>
-                          <span className="text-[10px] text-LightGray/50 mt-2 block">{exp.year}</span>
+                      <div
+                        key={idx}
+                        draggable={true}
+                        onDragStart={(e) => handleExpDragStart(e, idx)}
+                        onDragOver={(e) => handleExpDragOver(e, idx)}
+                        onDrop={(e) => handleExpDrop(e, idx)}
+                        onDragEnd={() => {
+                          setDraggedExpIndex(null);
+                          setDragOverExpIndex(null);
+                        }}
+                        className={`bg-DeepNightBlack p-4 rounded-xl border flex justify-between items-start transition-all duration-300 ${
+                          draggedExpIndex === idx
+                            ? 'opacity-40 border-dashed border-Green scale-95'
+                            : dragOverExpIndex === idx
+                            ? 'border-2 border-Green shadow-xl scale-[1.01]'
+                            : 'border-LightGray/10 hover:border-Green/30'
+                        }`}
+                      >
+                        <div className="flex gap-3 items-start">
+                          <div className="flex flex-col items-center gap-1 mt-1 bg-EveningBlack/80 p-1 rounded-lg border border-LightGray/10">
+                            <span className="cursor-grab active:cursor-grabbing text-Green hover:text-white p-0.5 transition-colors" title="Drag to reorder">
+                              <FaGripVertical className="text-xs" />
+                            </span>
+                            <span className="text-[10px] font-bold text-Snow">#{idx + 1}</span>
+                          </div>
+                          <div>
+                            <h4 className="font-bold text-sm text-Snow font-circular-bold">{exp.title}</h4>
+                            <p className="text-xs text-Green font-medium mt-0.5">{exp.role} ({exp.location})</p>
+                            <p className="text-xs text-LightGray/70 mt-1 font-circular-light">{exp.desc}</p>
+                            <span className="text-[10px] text-LightGray/50 mt-2 block">{exp.year}</span>
+                          </div>
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex items-center gap-2">
+                          <div className="flex flex-col gap-0.5 border-r border-LightGray/10 pr-2 mr-1">
+                            <button
+                              type="button"
+                              disabled={idx === 0}
+                              onClick={() => handleMoveExp(idx, 'up')}
+                              className="p-1 text-LightGray hover:text-Green disabled:opacity-30 transition-colors"
+                              title="Move Up"
+                            >
+                              <FaArrowUp className="text-[10px]" />
+                            </button>
+                            <button
+                              type="button"
+                              disabled={idx === (profile.experience || []).length - 1}
+                              onClick={() => handleMoveExp(idx, 'down')}
+                              className="p-1 text-LightGray hover:text-Green disabled:opacity-30 transition-colors"
+                              title="Move Down"
+                            >
+                              <FaArrowDown className="text-[10px]" />
+                            </button>
+                          </div>
                           <button
                             onClick={() => {
                               setEditingExpIndex(idx);
                               setExpForm(exp);
                               setIsExpModalOpen(true);
                             }}
-                            className="text-Green text-xs hover:underline transition-all"
+                            className="text-Green text-xs hover:underline transition-all p-1"
                           >
                             <FaEdit />
                           </button>
                           <button
                             onClick={() => handleDeleteExp(idx)}
-                            className="text-red-400 text-xs hover:underline transition-all"
+                            className="text-red-400 text-xs hover:underline transition-all p-1"
                           >
                             <FaTrash />
                           </button>
