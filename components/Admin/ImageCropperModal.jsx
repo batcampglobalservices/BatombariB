@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { FaTimes, FaCrop, FaSearchPlus, FaSearchMinus, FaUpload, FaRedo, FaCloudUploadAlt } from 'react-icons/fa';
+import ClientPortal from '../Common/ClientPortal';
 
 export default function ImageCropperModal({ isOpen, onClose, onCropComplete, initialImage = '' }) {
   const [imageSrc, setImageSrc] = useState(initialImage);
@@ -108,12 +109,16 @@ export default function ImageCropperModal({ isOpen, onClose, onCropComplete, ini
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
-      <div className="bg-EveningBlack rounded-2xl border border-yellow/30 w-full max-w-lg overflow-hidden shadow-2xl animate-fade-in">
+    <ClientPortal>
+      <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
+        <div className="bg-EveningBlack rounded-2xl border border-Green/30 w-full max-w-lg overflow-hidden shadow-2xl animate-fade-in my-auto">
+
+
         {/* Header */}
+
         <div className="flex justify-between items-center px-6 py-4 border-b border-LightGray/10 bg-DeepNightBlack">
-          <h3 className="text-base font-bold text-Snow flex items-center gap-2">
-            <FaCrop className="text-yellow" /> Crop & Upload Profile Avatar
+          <h3 className="text-base font-bold text-Snow flex items-center gap-2 font-circular">
+            <FaCrop className="text-Green" /> Crop & Upload Profile Avatar
           </h3>
           <button onClick={onClose} className="text-LightGray hover:text-Snow transition-colors">
             <FaTimes />
@@ -124,7 +129,7 @@ export default function ImageCropperModal({ isOpen, onClose, onCropComplete, ini
         <div className="p-6 flex flex-col items-center">
           {/* Circular Viewport Preview Frame */}
           <div
-            className="relative w-64 h-64 rounded-full border-4 border-yellow/60 overflow-hidden bg-DeepNightBlack cursor-grab active:cursor-grabbing shadow-inner flex items-center justify-center select-none"
+            className="relative w-64 h-64 rounded-full border-4 border-Green/60 overflow-hidden bg-DeepNightBlack cursor-grab active:cursor-grabbing shadow-inner flex items-center justify-center select-none"
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
@@ -147,13 +152,13 @@ export default function ImageCropperModal({ isOpen, onClose, onCropComplete, ini
               />
             ) : (
               <div className="text-center p-4 text-LightGray/60">
-                <FaUpload className="text-3xl mx-auto mb-2 text-yellow/50" />
+                <FaUpload className="text-3xl mx-auto mb-2 text-Green/50" />
                 <span className="text-xs">Upload an image to start cropping</span>
               </div>
             )}
           </div>
 
-          <p className="text-[11px] text-LightGray/60 mt-3">
+          <p className="text-[11px] text-LightGray/60 mt-3 font-circular">
             💡 Drag photo to position within circle frame. Use slider to zoom.
           </p>
 
@@ -169,13 +174,13 @@ export default function ImageCropperModal({ isOpen, onClose, onCropComplete, ini
                 step="0.05"
                 value={zoom}
                 onChange={(e) => setZoom(parseFloat(e.target.value))}
-                className="flex-1 accent-yellow cursor-pointer"
+                className="flex-1 accent-Green cursor-pointer"
               />
               <FaSearchPlus className="text-LightGray text-xs" />
               <button
                 type="button"
                 onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }}
-                className="text-xs text-yellow hover:underline flex items-center gap-1 ml-2"
+                className="text-xs text-Green hover:underline flex items-center gap-1 ml-2 font-medium"
                 title="Reset Position"
               >
                 <FaRedo className="text-[10px]" /> Reset
@@ -196,7 +201,7 @@ export default function ImageCropperModal({ isOpen, onClose, onCropComplete, ini
                 onClick={() => fileInputRef.current?.click()}
                 className="flex-1 bg-DeepNightBlack hover:bg-DeepNightBlack/80 border border-LightGray/20 text-Snow text-xs py-2.5 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors"
               >
-                <FaUpload className="text-yellow" /> Select Photo File
+                <FaUpload className="text-Green" /> Select Photo File
               </button>
             </div>
           </div>
@@ -215,7 +220,7 @@ export default function ImageCropperModal({ isOpen, onClose, onCropComplete, ini
             type="button"
             onClick={handleCropAndSave}
             disabled={!imageSrc || uploading}
-            className="px-5 py-2 rounded-xl bg-yellow text-DeepNightBlack font-bold text-xs hover:bg-yellow/90 transition-all shadow-lg flex items-center gap-1.5"
+            className="px-5 py-2 rounded-xl bg-Green text-DeepNightBlack font-bold text-xs hover:bg-Green/90 transition-all shadow-lg flex items-center gap-1.5"
           >
             {uploading ? (
               <>
@@ -230,5 +235,6 @@ export default function ImageCropperModal({ isOpen, onClose, onCropComplete, ini
         </div>
       </div>
     </div>
-  );
+  </ClientPortal>
+);
 }

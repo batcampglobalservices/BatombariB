@@ -7,7 +7,6 @@ import {
   FaEdit, 
   FaTrash, 
   FaDatabase, 
-  FaGlobe, 
   FaSearch, 
   FaArrowLeft, 
   FaLock, 
@@ -27,6 +26,7 @@ import BannerLayout from '../../components/Common/BannerLayout';
 import Footer from '../../components/Footer';
 import Badge from '../../components/Common/Badge';
 import ImageCropperModal from '../../components/Admin/ImageCropperModal';
+import ClientPortal from '../../components/Common/ClientPortal';
 
 export default function AdminCMS() {
   // Active Tab
@@ -42,7 +42,6 @@ export default function AdminCMS() {
   const [projectToDelete, setProjectToDelete] = useState(null);
   const [uploadingProjectImage, setUploadingProjectImage] = useState(false);
   const projectFileInputRef = useRef(null);
-
 
   // Profile State
   const [profile, setProfile] = useState({
@@ -321,7 +320,6 @@ export default function AdminCMS() {
     reader.readAsDataURL(file);
   };
 
-
   const handleProjectFormSubmit = async (e) => {
     e.preventDefault();
     if (!projectFormData.projectName || !projectFormData.image || !projectFormData.projectDetail) {
@@ -405,33 +403,33 @@ export default function AdminCMS() {
         <title>Portfolio CMS Admin Dashboard</title>
       </Head>
 
-      <div className="px-4 sm:px-8 py-6 max-w-7xl mx-auto text-Snow">
+      <div className="px-4 sm:px-8 py-6 max-w-7xl mx-auto text-Snow font-circular">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-EveningBlack p-6 rounded-2xl border border-LightGray/10 shadow-xl">
           <div>
             <div className="flex items-center gap-3">
-              <Link href="/portfolio" className="text-LightGray hover:text-yellow transition-colors">
+              <Link href="/portfolio" className="text-LightGray hover:text-Green transition-colors">
                 <FaArrowLeft className="text-xl" />
               </Link>
-              <h1 className="text-2xl sm:text-3xl font-bold text-Snow flex items-center gap-3">
-                <FaDatabase className="text-yellow" /> Portfolio CMS Dashboard
+              <h1 className="text-2xl sm:text-3xl font-bold font-circular-bold text-Snow flex items-center gap-3">
+                <FaDatabase className="text-Green" /> Portfolio CMS Dashboard
               </h1>
             </div>
-            <p className="text-sm text-LightGray mt-1">
+            <p className="text-sm text-LightGray mt-1 font-circular-light">
               Manage your projects, profile photo, CV, background, skills, and social links in MongoDB.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
             <span className="bg-DeepNightBlack px-3 py-1.5 rounded-lg text-xs text-LightGray border border-LightGray/10">
-              Projects: <strong className="text-yellow">{projects.length}</strong>
+              Projects: <strong className="text-Green font-bold">{projects.length}</strong>
             </span>
             <button
               onClick={() => handleSeedDatabase(false)}
               disabled={seeding}
-              className="flex items-center gap-2 bg-EveningBlack hover:bg-DeepNightBlack text-LightGray border border-yellow/40 hover:border-yellow text-xs px-3 py-2 rounded-xl transition-all duration-300"
+              className="flex items-center gap-2 bg-EveningBlack hover:bg-DeepNightBlack text-Green border border-Green/40 hover:border-Green text-xs px-3.5 py-2 rounded-xl transition-all duration-300 font-semibold"
             >
-              <FaSync className={seeding ? 'animate-spin text-yellow' : 'text-yellow'} />
+              <FaSync className={seeding ? 'animate-spin text-Green' : 'text-Green'} />
               {seeding ? 'Seeding...' : 'Seed Projects'}
             </button>
           </div>
@@ -440,14 +438,14 @@ export default function AdminCMS() {
         {/* Message Toast */}
         {message.text && (
           <div
-            className={`mb-6 p-4 rounded-xl flex items-center justify-between text-sm shadow-lg ${
+            className={`mb-6 p-4 rounded-xl flex items-center justify-between text-sm shadow-lg font-medium ${
               message.type === 'error'
                 ? 'bg-red-950/80 border border-red-500/50 text-red-200'
-                : 'bg-emerald-950/80 border border-emerald-500/50 text-emerald-200'
+                : 'bg-emerald-950/80 border border-Green/50 text-emerald-200'
             }`}
           >
             <span className="flex items-center gap-2">
-              <FaCheck /> {message.text}
+              <FaCheck className="text-Green" /> {message.text}
             </span>
             <button onClick={() => setMessage({ text: '', type: '' })}>
               <FaTimes />
@@ -457,12 +455,12 @@ export default function AdminCMS() {
 
         {!isAuthenticated ? (
           /* Passcode Unlock Prompt */
-          <div className="bg-EveningBlack p-8 rounded-2xl border border-yellow/30 max-w-md mx-auto my-12 text-center shadow-2xl">
-            <div className="w-16 h-16 bg-yellow/10 rounded-full flex items-center justify-center mx-auto mb-4 text-yellow text-2xl">
+          <div className="bg-EveningBlack p-8 rounded-2xl border border-Green/30 max-w-md mx-auto my-12 text-center shadow-2xl">
+            <div className="w-16 h-16 bg-Green/10 rounded-full flex items-center justify-center mx-auto mb-4 text-Green text-2xl">
               <FaLock />
             </div>
-            <h2 className="text-xl font-bold text-Snow mb-2">CMS Admin Access</h2>
-            <p className="text-xs text-LightGray mb-6">
+            <h2 className="text-xl font-bold text-Snow mb-2 font-circular-bold">CMS Admin Access</h2>
+            <p className="text-xs text-LightGray mb-6 font-circular-light">
               Enter your passcode to unlock the portfolio & profile management tools.
             </p>
             <form onSubmit={handleAuthSubmit} className="flex flex-col gap-4">
@@ -473,13 +471,13 @@ export default function AdminCMS() {
                   placeholder="Enter passcode..."
                   value={passcode}
                   onChange={(e) => setPasscode(e.target.value)}
-                  className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl py-2.5 pl-10 pr-4 text-Snow focus:border-yellow focus:outline-none text-sm"
+                  className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl py-2.5 pl-10 pr-4 text-Snow focus:border-Green focus:outline-none text-sm"
                 />
               </div>
-              {authError && <p className="text-xs text-red-400">{authError}</p>}
+              {authError && <p className="text-xs text-red-400 font-medium">{authError}</p>}
               <button
                 type="submit"
-                className="bg-yellow hover:bg-yellow/90 text-DeepNightBlack font-bold py-2.5 rounded-xl text-sm transition-all"
+                className="bg-Green hover:bg-Green/90 text-DeepNightBlack font-bold py-2.5 rounded-xl text-sm transition-all shadow-md"
               >
                 Unlock Dashboard
               </button>
@@ -487,54 +485,54 @@ export default function AdminCMS() {
           </div>
         ) : (
           <>
-            {/* CMS Navigation Tabs */}
+            {/* CMS Navigation Tabs (Following Typography Rules & High Contrast Text) */}
             <div className="flex flex-wrap gap-2 mb-8 bg-EveningBlack p-2 rounded-2xl border border-LightGray/10">
               <button
                 onClick={() => setActiveTab('projects')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 ${
                   activeTab === 'projects'
-                    ? 'bg-yellow text-DeepNightBlack shadow-md'
-                    : 'text-LightGray hover:text-Snow hover:bg-DeepNightBlack'
+                    ? 'bg-Green text-DeepNightBlack shadow-md font-circular-bold'
+                    : 'text-LightGray hover:text-Snow hover:bg-DeepNightBlack font-medium'
                 }`}
               >
                 <FaDatabase /> Projects ({projects.length})
               </button>
               <button
                 onClick={() => setActiveTab('profile')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 ${
                   activeTab === 'profile'
-                    ? 'bg-yellow text-DeepNightBlack shadow-md'
-                    : 'text-LightGray hover:text-Snow hover:bg-DeepNightBlack'
+                    ? 'bg-Green text-DeepNightBlack shadow-md font-circular-bold'
+                    : 'text-LightGray hover:text-Snow hover:bg-DeepNightBlack font-medium'
                 }`}
               >
                 <FaUser /> Profile Photo & Bio
               </button>
               <button
                 onClick={() => setActiveTab('skills')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 ${
                   activeTab === 'skills'
-                    ? 'bg-yellow text-DeepNightBlack shadow-md'
-                    : 'text-LightGray hover:text-Snow hover:bg-DeepNightBlack'
+                    ? 'bg-Green text-DeepNightBlack shadow-md font-circular-bold'
+                    : 'text-LightGray hover:text-Snow hover:bg-DeepNightBlack font-medium'
                 }`}
               >
                 <FaTools /> Skills & Tech Stack
               </button>
               <button
                 onClick={() => setActiveTab('background')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 ${
                   activeTab === 'background'
-                    ? 'bg-yellow text-DeepNightBlack shadow-md'
-                    : 'text-LightGray hover:text-Snow hover:bg-DeepNightBlack'
+                    ? 'bg-Green text-DeepNightBlack shadow-md font-circular-bold'
+                    : 'text-LightGray hover:text-Snow hover:bg-DeepNightBlack font-medium'
                 }`}
               >
                 <FaGraduationCap /> Education & Experience
               </button>
               <button
                 onClick={() => setActiveTab('social')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 ${
                   activeTab === 'social'
-                    ? 'bg-yellow text-DeepNightBlack shadow-md'
-                    : 'text-LightGray hover:text-Snow hover:bg-DeepNightBlack'
+                    ? 'bg-Green text-DeepNightBlack shadow-md font-circular-bold'
+                    : 'text-LightGray hover:text-Snow hover:bg-DeepNightBlack font-medium'
                 }`}
               >
                 <FaShareAlt /> Social & Contacts
@@ -552,12 +550,12 @@ export default function AdminCMS() {
                       placeholder="Search projects..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full bg-EveningBlack border border-LightGray/10 rounded-xl py-2.5 pl-12 pr-4 text-Snow placeholder-LightGray/50 focus:border-yellow focus:outline-none text-sm"
+                      className="w-full bg-EveningBlack border border-LightGray/10 rounded-xl py-2.5 pl-12 pr-4 text-Snow placeholder-LightGray/50 focus:border-Green focus:outline-none text-sm"
                     />
                   </div>
                   <button
                     onClick={handleOpenAddProjectModal}
-                    className="w-full sm:w-auto bg-yellow text-DeepNightBlack font-bold text-xs px-4 py-2.5 rounded-xl shadow-lg hover:bg-yellow/90 transition-all flex items-center justify-center gap-2"
+                    className="w-full sm:w-auto bg-Green text-DeepNightBlack font-bold text-xs px-5 py-2.5 rounded-xl shadow-lg hover:bg-Green/90 transition-all flex items-center justify-center gap-2"
                   >
                     <FaPlus /> Add New Project
                   </button>
@@ -585,7 +583,7 @@ export default function AdminCMS() {
                       return (
                         <div
                           key={project._id || project.id || idx}
-                          className="bg-EveningBlack rounded-2xl border border-LightGray/10 overflow-hidden shadow-xl hover:border-yellow/40 transition-all duration-300 flex flex-col justify-between group"
+                          className="bg-EveningBlack rounded-2xl border border-LightGray/10 overflow-hidden shadow-xl hover:border-Green/40 transition-all duration-300 flex flex-col justify-between group"
                         >
                           <div>
                             <div className="relative h-44 bg-DeepNightBlack overflow-hidden">
@@ -601,7 +599,7 @@ export default function AdminCMS() {
                               <div className="absolute top-3 right-3 flex gap-2">
                                 <button
                                   onClick={() => handleOpenEditProjectModal(project)}
-                                  className="p-2 bg-DeepNightBlack/80 text-yellow hover:bg-yellow hover:text-DeepNightBlack rounded-lg text-xs"
+                                  className="p-2 bg-DeepNightBlack/80 text-Green hover:bg-Green hover:text-DeepNightBlack rounded-lg text-xs transition-colors"
                                 >
                                   <FaEdit />
                                 </button>
@@ -610,17 +608,17 @@ export default function AdminCMS() {
                                     setProjectToDelete(project);
                                     setIsDeleteProjectModalOpen(true);
                                   }}
-                                  className="p-2 bg-DeepNightBlack/80 text-red-400 hover:bg-red-500 hover:text-white rounded-lg text-xs"
+                                  className="p-2 bg-DeepNightBlack/80 text-red-400 hover:bg-red-500 hover:text-white rounded-lg text-xs transition-colors"
                                 >
                                   <FaTrash />
                                 </button>
                               </div>
                             </div>
                             <div className="p-5">
-                              <h3 className="font-bold text-lg text-Snow group-hover:text-yellow transition-colors mb-2">
+                              <h3 className="font-bold text-lg text-Snow group-hover:text-Green transition-colors mb-2 font-circular-bold">
                                 {project.projectName}
                               </h3>
-                              <p className="text-xs text-LightGray line-clamp-3 mb-4">{project.projectDetail}</p>
+                              <p className="text-xs text-LightGray line-clamp-3 mb-4 font-circular-light">{project.projectDetail}</p>
                               <div className="flex flex-wrap gap-1.5">
                                 {techs.map((tech, tIdx) => (
                                   <Badge key={tIdx} title={tech} />
@@ -639,14 +637,14 @@ export default function AdminCMS() {
             {/* TAB 2: PROFILE PHOTO & BIO */}
             {activeTab === 'profile' && (
               <div className="bg-EveningBlack p-6 rounded-2xl border border-LightGray/10 shadow-xl space-y-6">
-                <h2 className="text-lg font-bold text-Snow flex items-center gap-2">
-                  <FaUser className="text-yellow" /> Profile & Avatar Settings
+                <h2 className="text-lg font-bold text-Snow flex items-center gap-2 font-circular-bold">
+                  <FaUser className="text-Green" /> Profile & Avatar Settings
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
                   {/* Photo Avatar Box */}
-                  <div className="flex flex-col items-center p-6 bg-DeepNightBlack rounded-2xl border border-yellow/20 text-center">
-                    <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-yellow mb-4 shadow-xl group">
+                  <div className="flex flex-col items-center p-6 bg-DeepNightBlack rounded-2xl border border-Green/20 text-center">
+                    <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-Green mb-4 shadow-xl group">
                       <img
                         src={profile.profilePhoto || '/images/batombari.jpeg'}
                         alt="Profile Avatar"
@@ -660,11 +658,11 @@ export default function AdminCMS() {
                     <button
                       type="button"
                       onClick={() => setIsCropperOpen(true)}
-                      className="bg-yellow hover:bg-yellow/90 text-DeepNightBlack font-bold text-xs px-4 py-2 rounded-xl flex items-center gap-2 shadow-md transition-all"
+                      className="bg-Green hover:bg-Green/90 text-DeepNightBlack font-bold text-xs px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-md transition-all font-circular-bold"
                     >
                       <FaCrop /> Edit & Crop Profile Photo
                     </button>
-                    <p className="text-[11px] text-LightGray/60 mt-3">
+                    <p className="text-[11px] text-LightGray/60 mt-3 font-circular-light">
                       Upload any photo from your computer, zoom and crop to fit your sidebar avatar circle.
                     </p>
                   </div>
@@ -677,7 +675,7 @@ export default function AdminCMS() {
                         type="text"
                         value={profile.name}
                         onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-                        className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2.5 text-Snow text-sm focus:border-yellow focus:outline-none"
+                        className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2.5 text-Snow text-sm focus:border-Green focus:outline-none"
                       />
                     </div>
 
@@ -687,7 +685,7 @@ export default function AdminCMS() {
                         type="text"
                         value={profile.designation}
                         onChange={(e) => setProfile({ ...profile, designation: e.target.value })}
-                        className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2.5 text-Snow text-sm focus:border-yellow focus:outline-none"
+                        className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2.5 text-Snow text-sm focus:border-Green focus:outline-none"
                       />
                     </div>
 
@@ -701,7 +699,7 @@ export default function AdminCMS() {
                             placeholder="e.g. /Batombari-Bakpo.pdf or https://..."
                             value={profile.resumeUrl}
                             onChange={(e) => setProfile({ ...profile, resumeUrl: e.target.value })}
-                            className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl pl-10 pr-4 py-2.5 text-Snow text-sm focus:border-yellow focus:outline-none"
+                            className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl pl-10 pr-4 py-2.5 text-Snow text-sm focus:border-Green focus:outline-none"
                           />
                         </div>
                         {profile.resumeUrl && (
@@ -709,7 +707,7 @@ export default function AdminCMS() {
                             href={profile.resumeUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="bg-EveningBlack hover:bg-DeepNightBlack border border-yellow/40 text-yellow text-xs px-4 py-2.5 rounded-xl font-semibold flex items-center gap-1"
+                            className="bg-EveningBlack hover:bg-DeepNightBlack border border-Green/40 text-Green text-xs px-4 py-2.5 rounded-xl font-semibold flex items-center gap-1 transition-all"
                           >
                             Test Link
                           </a>
@@ -722,7 +720,7 @@ export default function AdminCMS() {
                         type="button"
                         disabled={submitting}
                         onClick={() => handleSaveProfile()}
-                        className="bg-yellow text-DeepNightBlack font-bold text-xs px-6 py-2.5 rounded-xl shadow-lg hover:bg-yellow/90 transition-all"
+                        className="bg-Green text-DeepNightBlack font-bold text-xs px-6 py-2.5 rounded-xl shadow-lg hover:bg-Green/90 transition-all font-circular-bold"
                       >
                         {submitting ? 'Saving...' : 'Save Profile Settings'}
                       </button>
@@ -737,8 +735,8 @@ export default function AdminCMS() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Skills Section */}
                 <div className="bg-EveningBlack p-6 rounded-2xl border border-LightGray/10 shadow-xl">
-                  <h3 className="text-base font-bold text-Snow mb-4 flex items-center gap-2">
-                    <FaTools className="text-yellow" /> Skills & Proficiency Levels
+                  <h3 className="text-base font-bold text-Snow mb-4 flex items-center gap-2 font-circular-bold">
+                    <FaTools className="text-Green" /> Skills & Proficiency Levels
                   </h3>
 
                   <form onSubmit={handleAddSkill} className="flex gap-2 mb-6">
@@ -747,18 +745,18 @@ export default function AdminCMS() {
                       placeholder="Skill name (e.g. React Developer)"
                       value={newSkillTitle}
                       onChange={(e) => setNewSkillTitle(e.target.value)}
-                      className="flex-1 bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2 text-Snow text-xs focus:border-yellow focus:outline-none"
+                      className="flex-1 bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2 text-Snow text-xs focus:border-Green focus:outline-none"
                     />
                     <input
                       type="text"
                       placeholder="Level (e.g. 90%)"
                       value={newSkillLevel}
                       onChange={(e) => setNewSkillLevel(e.target.value)}
-                      className="w-24 bg-DeepNightBlack border border-LightGray/20 rounded-xl px-3 py-2 text-Snow text-xs focus:border-yellow focus:outline-none text-center"
+                      className="w-24 bg-DeepNightBlack border border-LightGray/20 rounded-xl px-3 py-2 text-Snow text-xs focus:border-Green focus:outline-none text-center"
                     />
                     <button
                       type="submit"
-                      className="bg-yellow text-DeepNightBlack font-bold text-xs px-4 py-2 rounded-xl hover:bg-yellow/90"
+                      className="bg-Green text-DeepNightBlack font-bold text-xs px-4 py-2 rounded-xl hover:bg-Green/90 transition-all"
                     >
                       Add
                     </button>
@@ -772,11 +770,11 @@ export default function AdminCMS() {
                       >
                         <div>
                           <span className="text-xs font-bold text-Snow">{skill.title}</span>
-                          <span className="ml-3 text-[11px] text-yellow font-semibold">{skill.level}</span>
+                          <span className="ml-3 text-[11px] text-Green font-bold">{skill.level}</span>
                         </div>
                         <button
                           onClick={() => handleRemoveSkill(idx)}
-                          className="text-LightGray hover:text-red-400 text-xs p-1"
+                          className="text-LightGray hover:text-red-400 text-xs p-1 transition-colors"
                         >
                           <FaTimes />
                         </button>
@@ -787,8 +785,8 @@ export default function AdminCMS() {
 
                 {/* Tech Stack List */}
                 <div className="bg-EveningBlack p-6 rounded-2xl border border-LightGray/10 shadow-xl">
-                  <h3 className="text-base font-bold text-Snow mb-4 flex items-center gap-2">
-                    <FaTools className="text-yellow" /> Tech Stack Badges
+                  <h3 className="text-base font-bold text-Snow mb-4 flex items-center gap-2 font-circular-bold">
+                    <FaTools className="text-Green" /> Tech Stack Badges
                   </h3>
 
                   <form onSubmit={handleAddTechStackItem} className="flex gap-2 mb-6">
@@ -797,11 +795,11 @@ export default function AdminCMS() {
                       placeholder="Add tech badge (e.g. Solidity, Python)"
                       value={newTechStackInput}
                       onChange={(e) => setNewTechStackInput(e.target.value)}
-                      className="flex-1 bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2 text-Snow text-xs focus:border-yellow focus:outline-none"
+                      className="flex-1 bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2 text-Snow text-xs focus:border-Green focus:outline-none"
                     />
                     <button
                       type="submit"
-                      className="bg-yellow text-DeepNightBlack font-bold text-xs px-4 py-2 rounded-xl hover:bg-yellow/90"
+                      className="bg-Green text-DeepNightBlack font-bold text-xs px-4 py-2 rounded-xl hover:bg-Green/90 transition-all"
                     >
                       Add Badge
                     </button>
@@ -811,12 +809,12 @@ export default function AdminCMS() {
                     {(profile.techStack || []).map((item, idx) => (
                       <span
                         key={idx}
-                        className="bg-DeepNightBlack border border-yellow/30 text-Snow text-xs px-3 py-1.5 rounded-full flex items-center gap-2 shadow-sm"
+                        className="bg-DeepNightBlack border border-Green/30 text-Snow text-xs px-3 py-1.5 rounded-full flex items-center gap-2 shadow-sm font-medium"
                       >
                         {item}
                         <button
                           onClick={() => handleRemoveTechStackItem(item)}
-                          className="text-LightGray hover:text-red-400"
+                          className="text-LightGray hover:text-red-400 transition-colors"
                         >
                           <FaTimes className="text-[10px]" />
                         </button>
@@ -833,8 +831,8 @@ export default function AdminCMS() {
                 {/* Education Section */}
                 <div className="bg-EveningBlack p-6 rounded-2xl border border-LightGray/10 shadow-xl">
                   <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-base font-bold text-Snow flex items-center gap-2">
-                      <FaGraduationCap className="text-yellow" /> Education Cards
+                    <h3 className="text-base font-bold text-Snow flex items-center gap-2 font-circular-bold">
+                      <FaGraduationCap className="text-Green" /> Education Cards
                     </h3>
                     <button
                       onClick={() => {
@@ -842,7 +840,7 @@ export default function AdminCMS() {
                         setEduForm({ title: '', degree: '', detail: '', year: '' });
                         setIsEduModalOpen(true);
                       }}
-                      className="bg-yellow text-DeepNightBlack font-bold text-xs px-3 py-1.5 rounded-xl flex items-center gap-1"
+                      className="bg-Green text-DeepNightBlack font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-md hover:bg-Green/90 transition-all"
                     >
                       <FaPlus /> Add Education
                     </button>
@@ -852,9 +850,9 @@ export default function AdminCMS() {
                     {(profile.education || []).map((edu, idx) => (
                       <div key={idx} className="bg-DeepNightBlack p-4 rounded-xl border border-LightGray/10 flex justify-between items-start">
                         <div>
-                          <h4 className="font-bold text-sm text-Snow">{edu.title}</h4>
-                          <p className="text-xs text-yellow">{edu.degree}</p>
-                          <p className="text-xs text-LightGray/70 mt-1">{edu.detail}</p>
+                          <h4 className="font-bold text-sm text-Snow font-circular-bold">{edu.title}</h4>
+                          <p className="text-xs text-Green font-medium mt-0.5">{edu.degree}</p>
+                          <p className="text-xs text-LightGray/70 mt-1 font-circular-light">{edu.detail}</p>
                           <span className="text-[10px] text-LightGray/50 mt-2 block">{edu.year}</span>
                         </div>
                         <div className="flex gap-2">
@@ -864,13 +862,13 @@ export default function AdminCMS() {
                               setEduForm(edu);
                               setIsEduModalOpen(true);
                             }}
-                            className="text-yellow text-xs hover:underline"
+                            className="text-Green text-xs hover:underline transition-all"
                           >
                             <FaEdit />
                           </button>
                           <button
                             onClick={() => handleDeleteEdu(idx)}
-                            className="text-red-400 text-xs hover:underline"
+                            className="text-red-400 text-xs hover:underline transition-all"
                           >
                             <FaTrash />
                           </button>
@@ -883,8 +881,8 @@ export default function AdminCMS() {
                 {/* Experience Section */}
                 <div className="bg-EveningBlack p-6 rounded-2xl border border-LightGray/10 shadow-xl">
                   <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-base font-bold text-Snow flex items-center gap-2">
-                      <FaGraduationCap className="text-yellow" /> Experience Cards
+                    <h3 className="text-base font-bold text-Snow flex items-center gap-2 font-circular-bold">
+                      <FaGraduationCap className="text-Green" /> Experience Cards
                     </h3>
                     <button
                       onClick={() => {
@@ -892,7 +890,7 @@ export default function AdminCMS() {
                         setExpForm({ title: '', role: '', url: '', desc: '', year: '', location: '' });
                         setIsExpModalOpen(true);
                       }}
-                      className="bg-yellow text-DeepNightBlack font-bold text-xs px-3 py-1.5 rounded-xl flex items-center gap-1"
+                      className="bg-Green text-DeepNightBlack font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-md hover:bg-Green/90 transition-all"
                     >
                       <FaPlus /> Add Experience
                     </button>
@@ -902,9 +900,9 @@ export default function AdminCMS() {
                     {(profile.experience || []).map((exp, idx) => (
                       <div key={idx} className="bg-DeepNightBlack p-4 rounded-xl border border-LightGray/10 flex justify-between items-start">
                         <div>
-                          <h4 className="font-bold text-sm text-Snow">{exp.title}</h4>
-                          <p className="text-xs text-yellow">{exp.role} ({exp.location})</p>
-                          <p className="text-xs text-LightGray/70 mt-1">{exp.desc}</p>
+                          <h4 className="font-bold text-sm text-Snow font-circular-bold">{exp.title}</h4>
+                          <p className="text-xs text-Green font-medium mt-0.5">{exp.role} ({exp.location})</p>
+                          <p className="text-xs text-LightGray/70 mt-1 font-circular-light">{exp.desc}</p>
                           <span className="text-[10px] text-LightGray/50 mt-2 block">{exp.year}</span>
                         </div>
                         <div className="flex gap-2">
@@ -914,13 +912,13 @@ export default function AdminCMS() {
                               setExpForm(exp);
                               setIsExpModalOpen(true);
                             }}
-                            className="text-yellow text-xs hover:underline"
+                            className="text-Green text-xs hover:underline transition-all"
                           >
                             <FaEdit />
                           </button>
                           <button
                             onClick={() => handleDeleteExp(idx)}
-                            className="text-red-400 text-xs hover:underline"
+                            className="text-red-400 text-xs hover:underline transition-all"
                           >
                             <FaTrash />
                           </button>
@@ -935,8 +933,8 @@ export default function AdminCMS() {
             {/* TAB 5: SOCIAL & CONTACTS */}
             {activeTab === 'social' && (
               <div className="bg-EveningBlack p-6 rounded-2xl border border-LightGray/10 shadow-xl space-y-6">
-                <h3 className="text-base font-bold text-Snow flex items-center gap-2">
-                  <FaShareAlt className="text-yellow" /> Social Links & Contact Info
+                <h3 className="text-base font-bold text-Snow flex items-center gap-2 font-circular-bold">
+                  <FaShareAlt className="text-Green" /> Social Links & Contact Info
                 </h3>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -951,7 +949,7 @@ export default function AdminCMS() {
                           socialLinks: { ...profile.socialLinks, github: e.target.value },
                         })
                       }
-                      className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2 text-Snow text-xs focus:border-yellow focus:outline-none"
+                      className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2 text-Snow text-xs focus:border-Green focus:outline-none"
                     />
                   </div>
                   <div>
@@ -965,7 +963,7 @@ export default function AdminCMS() {
                           socialLinks: { ...profile.socialLinks, linkedin: e.target.value },
                         })
                       }
-                      className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2 text-Snow text-xs focus:border-yellow focus:outline-none"
+                      className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2 text-Snow text-xs focus:border-Green focus:outline-none"
                     />
                   </div>
                   <div>
@@ -979,7 +977,7 @@ export default function AdminCMS() {
                           socialLinks: { ...profile.socialLinks, twitter: e.target.value },
                         })
                       }
-                      className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2 text-Snow text-xs focus:border-yellow focus:outline-none"
+                      className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2 text-Snow text-xs focus:border-Green focus:outline-none"
                     />
                   </div>
                   <div>
@@ -993,7 +991,7 @@ export default function AdminCMS() {
                           socialLinks: { ...profile.socialLinks, facebook: e.target.value },
                         })
                       }
-                      className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2 text-Snow text-xs focus:border-yellow focus:outline-none"
+                      className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2 text-Snow text-xs focus:border-Green focus:outline-none"
                     />
                   </div>
                   <div>
@@ -1007,7 +1005,7 @@ export default function AdminCMS() {
                           contacts: { ...profile.contacts, email: e.target.value },
                         })
                       }
-                      className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2 text-Snow text-xs focus:border-yellow focus:outline-none"
+                      className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2 text-Snow text-xs focus:border-Green focus:outline-none"
                     />
                   </div>
                   <div>
@@ -1021,7 +1019,7 @@ export default function AdminCMS() {
                           contacts: { ...profile.contacts, phone: e.target.value },
                         })
                       }
-                      className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2 text-Snow text-xs focus:border-yellow focus:outline-none"
+                      className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2 text-Snow text-xs focus:border-Green focus:outline-none"
                     />
                   </div>
                 </div>
@@ -1031,7 +1029,7 @@ export default function AdminCMS() {
                     type="button"
                     disabled={submitting}
                     onClick={() => handleSaveProfile()}
-                    className="bg-yellow text-DeepNightBlack font-bold text-xs px-6 py-2.5 rounded-xl shadow-lg hover:bg-yellow/90 transition-all"
+                    className="bg-Green text-DeepNightBlack font-bold text-xs px-6 py-2.5 rounded-xl shadow-lg hover:bg-Green/90 transition-all font-circular-bold"
                   >
                     {submitting ? 'Saving...' : 'Save Social Links'}
                   </button>
@@ -1052,310 +1050,317 @@ export default function AdminCMS() {
 
       {/* Add / Edit Project Modal */}
       {isProjectModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-EveningBlack rounded-2xl border border-yellow/30 w-full max-w-2xl overflow-hidden shadow-2xl my-8">
-            <div className="flex justify-between items-center px-6 py-4 border-b border-LightGray/10 bg-DeepNightBlack">
-              <h2 className="text-lg font-bold text-Snow flex items-center gap-2">
-                {editingProject ? <FaEdit className="text-yellow" /> : <FaPlus className="text-yellow" />}
-                {editingProject ? 'Edit Project' : 'Create New Project'}
-              </h2>
-              <button onClick={() => setIsProjectModalOpen(false)} className="text-LightGray hover:text-Snow">
-                <FaTimes />
-              </button>
-            </div>
-
-            <form onSubmit={handleProjectFormSubmit} className="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
-              <div>
-                <label className="block text-xs font-semibold text-LightGray mb-1">Project Name *</label>
-                <input
-                  type="text"
-                  required
-                  value={projectFormData.projectName}
-                  onChange={(e) => setProjectFormData({ ...projectFormData, projectName: e.target.value })}
-                  className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2.5 text-Snow text-sm focus:border-yellow focus:outline-none"
-                />
+        <ClientPortal>
+          <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+            <div className="bg-EveningBlack rounded-2xl border border-Green/30 w-full max-w-2xl overflow-hidden shadow-2xl my-auto max-h-[90vh] flex flex-col">
+              <div className="flex justify-between items-center px-6 py-4 border-b border-LightGray/10 bg-DeepNightBlack">
+                <h2 className="text-lg font-bold text-Snow flex items-center gap-2 font-circular-bold">
+                  {editingProject ? <FaEdit className="text-Green" /> : <FaPlus className="text-Green" />}
+                  {editingProject ? 'Edit Project' : 'Create New Project'}
+                </h2>
+                <button onClick={() => setIsProjectModalOpen(false)} className="text-LightGray hover:text-Snow">
+                  <FaTimes />
+                </button>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <form onSubmit={handleProjectFormSubmit} className="p-6 space-y-4 overflow-y-auto font-circular">
                 <div>
-                  <label className="block text-xs font-semibold text-LightGray mb-1">Image URL or Cloudinary Link *</label>
-                  <div className="flex gap-2">
+                  <label className="block text-xs font-semibold text-LightGray mb-1">Project Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={projectFormData.projectName}
+                    onChange={(e) => setProjectFormData({ ...projectFormData, projectName: e.target.value })}
+                    className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2.5 text-Snow text-sm focus:border-Green focus:outline-none"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-LightGray mb-1">Image URL or Cloudinary Link *</label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        required
+                        placeholder="Image URL or upload file"
+                        value={projectFormData.image}
+                        onChange={(e) => setProjectFormData({ ...projectFormData, image: e.target.value })}
+                        className="flex-1 bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2.5 text-Snow text-xs focus:border-Green focus:outline-none"
+                      />
+                      <input
+                        type="file"
+                        ref={projectFileInputRef}
+                        accept="image/*"
+                        onChange={handleProjectImageUpload}
+                        className="hidden"
+                      />
+                      <button
+                        type="button"
+                        disabled={uploadingProjectImage}
+                        onClick={() => projectFileInputRef.current?.click()}
+                        className="bg-EveningBlack hover:bg-DeepNightBlack border border-Green/40 hover:border-Green text-Green px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all"
+                        title="Upload to Cloudinary"
+                      >
+                        <FaCloudUploadAlt className={uploadingProjectImage ? 'animate-bounce' : ''} />
+                        {uploadingProjectImage ? 'Uploading...' : 'Upload'}
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-LightGray mb-1">Live Demo URL</label>
                     <input
                       type="text"
-                      required
-                      placeholder="Image URL or upload file"
-                      value={projectFormData.image}
-                      onChange={(e) => setProjectFormData({ ...projectFormData, image: e.target.value })}
-                      className="flex-1 bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2.5 text-Snow text-xs focus:border-yellow focus:outline-none"
+                      value={projectFormData.url}
+                      onChange={(e) => setProjectFormData({ ...projectFormData, url: e.target.value })}
+                      className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2.5 text-Snow text-sm focus:border-Green focus:outline-none"
                     />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-LightGray mb-1">Project Description *</label>
+                  <textarea
+                    required
+                    rows={4}
+                    value={projectFormData.projectDetail}
+                    onChange={(e) => setProjectFormData({ ...projectFormData, projectDetail: e.target.value })}
+                    className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl p-4 text-Snow text-sm focus:border-Green focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-LightGray mb-1">Technologies Used</label>
+                  <div className="flex gap-2 mb-2">
                     <input
-                      type="file"
-                      ref={projectFileInputRef}
-                      accept="image/*"
-                      onChange={handleProjectImageUpload}
-                      className="hidden"
+                      type="text"
+                      placeholder="e.g. NextJS, TypeScript"
+                      value={techInput}
+                      onChange={(e) => setTechInput(e.target.value)}
+                      className="flex-1 bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2 text-Snow text-sm focus:border-Green focus:outline-none"
                     />
                     <button
                       type="button"
-                      disabled={uploadingProjectImage}
-                      onClick={() => projectFileInputRef.current?.click()}
-                      className="bg-EveningBlack hover:bg-DeepNightBlack border border-yellow/40 hover:border-yellow text-yellow px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all"
-                      title="Upload to Cloudinary"
+                      onClick={handleAddProjectTech}
+                      className="bg-EveningBlack border border-Green/40 text-Green px-4 py-2 rounded-xl text-xs font-semibold hover:bg-Green/10 transition-all"
                     >
-                      <FaCloudUploadAlt className={uploadingProjectImage ? 'animate-bounce' : ''} />
-                      {uploadingProjectImage ? 'Uploading...' : 'Upload'}
+                      Add
                     </button>
                   </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    {techList.map((t, idx) => (
+                      <span
+                        key={idx}
+                        className="bg-DeepNightBlack border border-Green/30 text-Green text-xs px-2.5 py-1 rounded-full flex items-center gap-1.5"
+                      >
+                        {t}
+                        <button type="button" onClick={() => handleRemoveProjectTech(t)} className="text-LightGray hover:text-red-400">
+                          <FaTimes className="text-[10px]" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-xs font-semibold text-LightGray mb-1">Live Demo URL</label>
-                  <input
-                    type="text"
-                    value={projectFormData.url}
-                    onChange={(e) => setProjectFormData({ ...projectFormData, url: e.target.value })}
-                    className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2.5 text-Snow text-sm focus:border-yellow focus:outline-none"
-                  />
-                </div>
-              </div>
 
-
-              <div>
-                <label className="block text-xs font-semibold text-LightGray mb-1">Project Description *</label>
-                <textarea
-                  required
-                  rows={4}
-                  value={projectFormData.projectDetail}
-                  onChange={(e) => setProjectFormData({ ...projectFormData, projectDetail: e.target.value })}
-                  className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl p-4 text-Snow text-sm focus:border-yellow focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-LightGray mb-1">Technologies Used</label>
-                <div className="flex gap-2 mb-2">
-                  <input
-                    type="text"
-                    placeholder="e.g. NextJS, TypeScript"
-                    value={techInput}
-                    onChange={(e) => setTechInput(e.target.value)}
-                    className="flex-1 bg-DeepNightBlack border border-LightGray/20 rounded-xl px-4 py-2 text-Snow text-sm focus:border-yellow focus:outline-none"
-                  />
+                <div className="flex justify-end gap-3 pt-4 border-t border-LightGray/10">
                   <button
                     type="button"
-                    onClick={handleAddProjectTech}
-                    className="bg-EveningBlack border border-yellow/40 text-yellow px-4 py-2 rounded-xl text-xs font-semibold"
+                    onClick={() => setIsProjectModalOpen(false)}
+                    className="px-4 py-2 rounded-xl border border-LightGray/20 text-LightGray text-xs font-semibold"
                   >
-                    Add
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="px-6 py-2 rounded-xl bg-Green text-DeepNightBlack font-bold text-xs shadow-lg hover:bg-Green/90 transition-all"
+                  >
+                    {submitting ? 'Saving...' : editingProject ? 'Update Project' : 'Create Project'}
                   </button>
                 </div>
-
-                <div className="flex flex-wrap gap-2">
-                  {techList.map((t, idx) => (
-                    <span
-                      key={idx}
-                      className="bg-DeepNightBlack border border-yellow/30 text-yellow text-xs px-2.5 py-1 rounded-full flex items-center gap-1.5"
-                    >
-                      {t}
-                      <button type="button" onClick={() => handleRemoveProjectTech(t)} className="text-LightGray hover:text-red-400">
-                        <FaTimes className="text-[10px]" />
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex justify-end gap-3 pt-4 border-t border-LightGray/10">
-                <button
-                  type="button"
-                  onClick={() => setIsProjectModalOpen(false)}
-                  className="px-4 py-2 rounded-xl border border-LightGray/20 text-LightGray text-xs"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="px-6 py-2 rounded-xl bg-yellow text-DeepNightBlack font-bold text-xs shadow-lg"
-                >
-                  {submitting ? 'Saving...' : editingProject ? 'Update Project' : 'Create Project'}
-                </button>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
-        </div>
+        </ClientPortal>
       )}
 
       {/* Delete Project Modal */}
       {isDeleteProjectModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-EveningBlack rounded-2xl border border-red-500/30 w-full max-w-md p-6 text-center shadow-2xl">
-            <div className="w-12 h-12 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center mx-auto mb-3">
-              <FaTrash className="text-xl" />
-            </div>
-            <h3 className="text-lg font-bold text-Snow mb-1">Delete Project?</h3>
-            <p className="text-xs text-LightGray mb-6">
-              Are you sure you want to delete <strong className="text-Snow">"{projectToDelete?.projectName}"</strong>?
-            </p>
-            <div className="flex justify-center gap-3">
-              <button
-                onClick={() => setIsDeleteProjectModalOpen(false)}
-                className="px-4 py-2 rounded-xl border border-LightGray/20 text-LightGray text-xs font-semibold"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDeleteProjectConfirm}
-                disabled={submitting}
-                className="px-5 py-2 rounded-xl bg-red-500 text-white text-xs font-bold shadow-lg"
-              >
-                {submitting ? 'Deleting...' : 'Delete Permanently'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Education Modal */}
-      {isEduModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-EveningBlack rounded-2xl border border-yellow/30 w-full max-w-md p-6 shadow-2xl">
-            <h3 className="text-base font-bold text-Snow mb-4">
-              {editingEduIndex >= 0 ? 'Edit Education' : 'Add Education'}
-            </h3>
-            <form onSubmit={handleSaveEdu} className="space-y-3">
-              <div>
-                <label className="block text-xs text-LightGray mb-1">Institution Title *</label>
-                <input
-                  type="text"
-                  required
-                  value={eduForm.title}
-                  onChange={(e) => setEduForm({ ...eduForm, title: e.target.value })}
-                  className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-3 py-2 text-Snow text-xs"
-                />
+        <ClientPortal>
+          <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+            <div className="bg-EveningBlack rounded-2xl border border-red-500/30 w-full max-w-md p-6 text-center shadow-2xl font-circular my-auto">
+              <div className="w-12 h-12 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center mx-auto mb-3">
+                <FaTrash className="text-xl" />
               </div>
-              <div>
-                <label className="block text-xs text-LightGray mb-1">Degree / Certification *</label>
-                <input
-                  type="text"
-                  required
-                  value={eduForm.degree}
-                  onChange={(e) => setEduForm({ ...eduForm, degree: e.target.value })}
-                  className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-3 py-2 text-Snow text-xs"
-                />
-              </div>
-              <div>
-                <label className="block text-xs text-LightGray mb-1">Year Period</label>
-                <input
-                  type="text"
-                  value={eduForm.year}
-                  onChange={(e) => setEduForm({ ...eduForm, year: e.target.value })}
-                  className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-3 py-2 text-Snow text-xs"
-                />
-              </div>
-              <div>
-                <label className="block text-xs text-LightGray mb-1">Details</label>
-                <textarea
-                  rows={2}
-                  value={eduForm.detail}
-                  onChange={(e) => setEduForm({ ...eduForm, detail: e.target.value })}
-                  className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl p-3 text-Snow text-xs"
-                />
-              </div>
-              <div className="flex justify-end gap-2 pt-3">
+              <h3 className="text-lg font-bold text-Snow mb-1 font-circular-bold">Delete Project?</h3>
+              <p className="text-xs text-LightGray mb-6 font-circular-light">
+                Are you sure you want to delete <strong className="text-Snow">"{projectToDelete?.projectName}"</strong>?
+              </p>
+              <div className="flex justify-center gap-3">
                 <button
-                  type="button"
-                  onClick={() => setIsEduModalOpen(false)}
-                  className="px-3 py-1.5 text-xs text-LightGray"
+                  onClick={() => setIsDeleteProjectModalOpen(false)}
+                  className="px-4 py-2 rounded-xl border border-LightGray/20 text-LightGray text-xs font-semibold"
                 >
                   Cancel
                 </button>
                 <button
-                  type="submit"
-                  className="px-4 py-1.5 bg-yellow text-DeepNightBlack font-bold text-xs rounded-xl"
+                  onClick={handleDeleteProjectConfirm}
+                  disabled={submitting}
+                  className="px-5 py-2 rounded-xl bg-red-500 text-white text-xs font-bold shadow-lg hover:bg-red-600 transition-all"
                 >
-                  Save Education
+                  {submitting ? 'Deleting...' : 'Delete Permanently'}
                 </button>
               </div>
-            </form>
+            </div>
           </div>
-        </div>
+        </ClientPortal>
       )}
 
-      {/* Experience Modal */}
-      {isExpModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-EveningBlack rounded-2xl border border-yellow/30 w-full max-w-md p-6 shadow-2xl">
-            <h3 className="text-base font-bold text-Snow mb-4">
-              {editingExpIndex >= 0 ? 'Edit Experience' : 'Add Experience'}
-            </h3>
-            <form onSubmit={handleSaveExp} className="space-y-3">
-              <div>
-                <label className="block text-xs text-LightGray mb-1">Company / Organization *</label>
-                <input
-                  type="text"
-                  required
-                  value={expForm.title}
-                  onChange={(e) => setExpForm({ ...expForm, title: e.target.value })}
-                  className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-3 py-2 text-Snow text-xs"
-                />
-              </div>
-              <div>
-                <label className="block text-xs text-LightGray mb-1">Role / Position *</label>
-                <input
-                  type="text"
-                  required
-                  value={expForm.role}
-                  onChange={(e) => setExpForm({ ...expForm, role: e.target.value })}
-                  className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-3 py-2 text-Snow text-xs"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-2">
+      {/* Education Modal */}
+      {isEduModalOpen && (
+        <ClientPortal>
+          <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+            <div className="bg-EveningBlack rounded-2xl border border-Green/30 w-full max-w-md p-6 shadow-2xl font-circular my-auto">
+              <h3 className="text-base font-bold text-Snow mb-4 font-circular-bold">
+                {editingEduIndex >= 0 ? 'Edit Education' : 'Add Education'}
+              </h3>
+              <form onSubmit={handleSaveEdu} className="space-y-3">
                 <div>
-                  <label className="block text-xs text-LightGray mb-1">Location</label>
+                  <label className="block text-xs text-LightGray mb-1">Institution Title *</label>
                   <input
                     type="text"
-                    value={expForm.location}
-                    onChange={(e) => setExpForm({ ...expForm, location: e.target.value })}
-                    className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-3 py-2 text-Snow text-xs"
+                    required
+                    value={eduForm.title}
+                    onChange={(e) => setEduForm({ ...eduForm, title: e.target.value })}
+                    className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-3 py-2 text-Snow text-xs focus:border-Green focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-LightGray mb-1">Degree / Certification *</label>
+                  <input
+                    type="text"
+                    required
+                    value={eduForm.degree}
+                    onChange={(e) => setEduForm({ ...eduForm, degree: e.target.value })}
+                    className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-3 py-2 text-Snow text-xs focus:border-Green focus:outline-none"
                   />
                 </div>
                 <div>
                   <label className="block text-xs text-LightGray mb-1">Year Period</label>
                   <input
                     type="text"
-                    value={expForm.year}
-                    onChange={(e) => setExpForm({ ...expForm, year: e.target.value })}
-                    className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-3 py-2 text-Snow text-xs"
+                    value={eduForm.year}
+                    onChange={(e) => setEduForm({ ...eduForm, year: e.target.value })}
+                    className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-3 py-2 text-Snow text-xs focus:border-Green focus:outline-none"
                   />
                 </div>
-              </div>
-              <div>
-                <label className="block text-xs text-LightGray mb-1">Description</label>
-                <textarea
-                  rows={2}
-                  value={expForm.desc}
-                  onChange={(e) => setExpForm({ ...expForm, desc: e.target.value })}
-                  className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl p-3 text-Snow text-xs"
-                />
-              </div>
-              <div className="flex justify-end gap-2 pt-3">
-                <button
-                  type="button"
-                  onClick={() => setIsExpModalOpen(false)}
-                  className="px-3 py-1.5 text-xs text-LightGray"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-1.5 bg-yellow text-DeepNightBlack font-bold text-xs rounded-xl"
-                >
-                  Save Experience
-                </button>
-              </div>
-            </form>
+                <div>
+                  <label className="block text-xs text-LightGray mb-1">Details</label>
+                  <textarea
+                    rows={2}
+                    value={eduForm.detail}
+                    onChange={(e) => setEduForm({ ...eduForm, detail: e.target.value })}
+                    className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl p-3 text-Snow text-xs focus:border-Green focus:outline-none"
+                  />
+                </div>
+                <div className="flex justify-end gap-2 pt-3">
+                  <button
+                    type="button"
+                    onClick={() => setIsEduModalOpen(false)}
+                    className="px-3 py-1.5 text-xs text-LightGray font-medium"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-1.5 bg-Green text-DeepNightBlack font-bold text-xs rounded-xl shadow-md hover:bg-Green/90"
+                  >
+                    Save Education
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
+        </ClientPortal>
+      )}
+
+      {/* Experience Modal */}
+      {isExpModalOpen && (
+        <ClientPortal>
+          <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+            <div className="bg-EveningBlack rounded-2xl border border-Green/30 w-full max-w-md p-6 shadow-2xl font-circular my-auto">
+              <h3 className="text-base font-bold text-Snow mb-4 font-circular-bold">
+                {editingExpIndex >= 0 ? 'Edit Experience' : 'Add Experience'}
+              </h3>
+              <form onSubmit={handleSaveExp} className="space-y-3">
+                <div>
+                  <label className="block text-xs text-LightGray mb-1">Company / Organization *</label>
+                  <input
+                    type="text"
+                    required
+                    value={expForm.title}
+                    onChange={(e) => setExpForm({ ...expForm, title: e.target.value })}
+                    className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-3 py-2 text-Snow text-xs focus:border-Green focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-LightGray mb-1">Role / Position *</label>
+                  <input
+                    type="text"
+                    required
+                    value={expForm.role}
+                    onChange={(e) => setExpForm({ ...expForm, role: e.target.value })}
+                    className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-3 py-2 text-Snow text-xs focus:border-Green focus:outline-none"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="block text-xs text-LightGray mb-1">Location</label>
+                    <input
+                      type="text"
+                      value={expForm.location}
+                      onChange={(e) => setExpForm({ ...expForm, location: e.target.value })}
+                      className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-3 py-2 text-Snow text-xs focus:border-Green focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-LightGray mb-1">Year Period</label>
+                    <input
+                      type="text"
+                      value={expForm.year}
+                      onChange={(e) => setExpForm({ ...expForm, year: e.target.value })}
+                      className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl px-3 py-2 text-Snow text-xs focus:border-Green focus:outline-none"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs text-LightGray mb-1">Description</label>
+                  <textarea
+                    rows={2}
+                    value={expForm.desc}
+                    onChange={(e) => setExpForm({ ...expForm, desc: e.target.value })}
+                    className="w-full bg-DeepNightBlack border border-LightGray/20 rounded-xl p-3 text-Snow text-xs focus:border-Green focus:outline-none"
+                  />
+                </div>
+                <div className="flex justify-end gap-2 pt-3">
+                  <button
+                    type="button"
+                    onClick={() => setIsExpModalOpen(false)}
+                    className="px-3 py-1.5 text-xs text-LightGray font-medium"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-1.5 bg-Green text-DeepNightBlack font-bold text-xs rounded-xl shadow-md hover:bg-Green/90"
+                  >
+                    Save Experience
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </ClientPortal>
       )}
 
       <Footer />
