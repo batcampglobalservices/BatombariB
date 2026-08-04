@@ -1,13 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary';
 
-// Configure Cloudinary from Environment Variables
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || 'demo',
-  api_key: process.env.CLOUDINARY_API_KEY || '',
-  api_secret: process.env.CLOUDINARY_API_SECRET || '',
-  secure: true,
-});
-
 export const config = {
   api: {
     bodyParser: {
@@ -23,7 +15,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { image, folder = 'portfolio_uploads' } = req.body;
+    const { image, folder = 'portfolio_uploads' } = req.body || {};
 
     if (!image) {
       return res.status(400).json({ success: false, message: 'Please provide an image payload' });
@@ -31,17 +23,25 @@ export default async function handler(req, res) {
 
     const apiKey = process.env.CLOUDINARY_API_KEY;
     const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+    const apiSecret = process.env.CLOUDINARY_API_SECRET;
 
-    // Check if Cloudinary credentials are fully configured
-    if (!apiKey || apiKey === '' || cloudName === 'demo') {
-      // Fallback response if user hasn't put API key yet
+    // Check if Cloudinary credentials are missing or default
+    if (!apiKey || apiKey === '' || !cloudName || cloudName === 'demo' || !apiSecret) {
       return res.status(200).json({
         success: true,
-        message: 'Cloudinary API credentials missing in .env.local. Preserved image payload.',
-        url: image, // Returns input image data URL or relative URL
+        message: 'Cloudinary API credentials missing or incomplete. Using fallback payload.',
+        url: image,
         isFallback: true,
       });
     }
+
+    // Configure Cloudinary per request dynamically
+    cloudinary.config({
+      cloud_name: cloudName,
+      api_key: apiKey,
+      api_secret: apiSecret,
+      secure: true,
+    });
 
     // Upload to Cloudinary
     const uploadResult = await cloudinary.uploader.upload(image, {
@@ -57,11 +57,23 @@ export default async function handler(req, res) {
       bytes: uploadResult.bytes,
     });
   } catch (error) {
-    console.error('Cloudinary Upload API Error:', error);
+    console.warn('Cloudinary upload error, using payload fallback:', error?.message || error);
+    
+    // Return image payload gracefully to avoid 500 error on client
+    const fallbackImage = req.body?.image;
+    if (fallbackImage) {
+      return res.status(200).json({
+        success: true,
+        message: 'Cloudinary upload fallback activated.',
+        url: fallbackImage,
+        isFallback: true,
+      });
+    }
+
     return res.status(500).json({
       success: false,
-      message: 'Failed to upload image to Cloudinary',
-      error: error.message,
+      message: 'Failed to upload image',
+      error: error?.message || 'Unknown upload error',
     });
   }
 }

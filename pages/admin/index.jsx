@@ -22,6 +22,7 @@ import {
   FaCrop,
   FaCloudUploadAlt
 } from 'react-icons/fa';
+import { useQueryClient } from '@tanstack/react-query';
 import BannerLayout from '../../components/Common/BannerLayout';
 import Footer from '../../components/Footer';
 import Badge from '../../components/Common/Badge';
@@ -29,6 +30,7 @@ import ImageCropperModal from '../../components/Admin/ImageCropperModal';
 import ClientPortal from '../../components/Common/ClientPortal';
 
 export default function AdminCMS() {
+  const queryClient = useQueryClient();
   // Active Tab
   const [activeTab, setActiveTab] = useState('projects'); // 'projects' | 'profile' | 'skills' | 'background' | 'social'
 
@@ -150,7 +152,11 @@ export default function AdminCMS() {
     setSubmitting(true);
     try {
       const res = await axios.put('/api/profile', updatedData);
-      setProfile(res.data.data);
+      if (res.data?.data) {
+        setProfile(res.data.data);
+        queryClient.setQueryData(['profile'], res.data.data);
+        queryClient.invalidateQueries({ queryKey: ['profile'] });
+      }
       showMessage('Profile settings saved successfully!');
     } catch (err) {
       console.error('Profile save error:', err);
@@ -644,16 +650,22 @@ export default function AdminCMS() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
                   {/* Photo Avatar Box */}
                   <div className="flex flex-col items-center p-6 bg-DeepNightBlack rounded-2xl border border-Green/20 text-center">
-                    <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-Green mb-4 shadow-xl group">
-                      <img
-                        src={profile.profilePhoto || '/images/batombari.jpeg'}
-                        alt="Profile Avatar"
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = '/images/batombari.jpeg';
-                        }}
-                      />
+                    <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-Green mb-4 shadow-xl group flex items-center justify-center bg-DeepNightBlack">
+                      {loadingProfile ? (
+                        <div className="w-full h-full bg-EveningBlack animate-pulse rounded-full" />
+                      ) : (
+                        <img
+                          src={profile.profilePhoto || '/images/batombari.jpeg'}
+                          alt="Profile Avatar"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            if (!e.target.src.endsWith('/images/batombari.jpeg')) {
+                              e.target.src = '/images/batombari.jpeg';
+                            }
+                          }}
+                        />
+                      )}
                     </div>
                     <button
                       type="button"

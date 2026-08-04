@@ -11,7 +11,7 @@ import Skills from './Skills';
 import { NAME, DESIGNATION, SOCIAL_LINKS } from '../../../constants/constants';
 
 const Intro = () => {
-  const { data: profile } = useQuery({
+  const { data: profile, isLoading } = useQuery({
     queryKey: ['profile'],
     queryFn: () => axios.get('/api/profile').then(({ data }) => data).catch(() => null),
     staleTime: 1000 * 60 * 5,
@@ -19,7 +19,7 @@ const Intro = () => {
 
   const name = profile?.name || NAME;
   const designation = profile?.designation || DESIGNATION;
-  const photo = profile?.profilePhoto || '/images/batombari.jpeg';
+  const photo = profile?.profilePhoto;
   const resumeUrl = profile?.resumeUrl || '/Batombari-Bakpo.pdf';
   const social = profile?.socialLinks || SOCIAL_LINKS;
 
@@ -28,15 +28,21 @@ const Intro = () => {
       {/* fixed at top */}
       <div className="headerr z-50 absolute bg-MidNightBlack backdrop-blur-sm inset-y-0 h-48 top-0 flex items-center justify-center w-full flex-col px-4 gap-y-3">
         <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-yellow shadow-md flex items-center justify-center bg-DeepNightBlack">
-          <img
-            className="w-full h-full object-cover"
-            src={photo}
-            alt="profile picture"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = '/images/batombari.jpeg';
-            }}
-          />
+          {isLoading && !profile ? (
+            <div className="w-full h-full bg-EveningBlack animate-pulse rounded-full" />
+          ) : (
+            <img
+              className="w-full h-full object-cover"
+              src={photo || '/images/batombari.jpeg'}
+              alt="profile picture"
+              onError={(e) => {
+                e.target.onerror = null;
+                if (!e.target.src.endsWith('/images/batombari.jpeg')) {
+                  e.target.src = '/images/batombari.jpeg';
+                }
+              }}
+            />
+          )}
         </div>
         <div className="flex flex-col items-center justify-center text-center">
           <span className="text-gray-300 text-base font-bold break-normal">{name}</span>

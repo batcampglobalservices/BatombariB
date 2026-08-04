@@ -28,23 +28,23 @@ body {
 
     @font-face {
       font-family: 'cascadia-normal';
-      src: url(/public/fonts/Cascadia.ttf);
+      src: url(/fonts/Cascadia.ttf);
     }
     @font-face {
       font-family: 'circular-light';
-      src: url(/public/fonts/Circular-Light.otf);
+      src: url(/fonts/Circular-Light.otf);
     }
     @font-face {
       font-family: 'circular-normal';
-      src: url(/public/fonts/Circular-Book.otf);
+      src: url(/fonts/Circular-Book.otf);
     }
     @font-face {
       font-family: 'circular-medium';
-      src: url(/public/fonts/Circular-Medium.otf);
+      src: url(/fonts/Circular-Medium.otf);
     }
     @font-face {
       font-family: 'circular-bold';
-      src: url(/public/fonts/Circular-Bold.otf);
+      src: url(/fonts/Circular-Bold.otf);
     }
   }
     @variants responsive {
