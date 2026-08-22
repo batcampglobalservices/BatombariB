@@ -1,0 +1,16 @@
+{
+  "name": "Batombari Bakpo | Portfolio",
+  "short_name": "Batombari Bakpo",
+  "description": "Portfolio of Batombari Bakpo, a Full Stack Engineer, Ethical Hacker and UI/UX Designer.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d0d0d",
+  "theme_color": "#0d0d0d",
+  "icons": [
+    {
+      "src": "/images/avatar.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Skeleton } from "antd";
 import ParagraphSkeleton from "../components/Common/ParagraphSkeleton";
+import SEO from "../components/Common/SEO";
 
 function Background() {
 
@@ -19,8 +20,14 @@ function Background() {
 
     return (
         <BannerLayout>
+            <SEO
+                title="Background"
+                description="Education and professional experience of Batombari Bakpo, Full Stack Engineer and Ethical Hacker."
+                path="/background"
+            />
             <div className="grid md:grid-cols-2 md:divide-x-4 md:divide-Green px-4 pb-2 pt-10">
                 <div className="flex flex-col gap-y-4 order-2 md:order-1  md:mr-12">
+                    <h1 className="sr-only">Background: Education and Experience</h1>
                     <div className="mt-10 md:mt-0 text-xl text-Snow font-semibold">Education</div>
                     {isLoading ?
                         [1, 2, 3].map((item, idx) => (

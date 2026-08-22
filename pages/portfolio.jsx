@@ -6,6 +6,7 @@ import PortfolioCard from "../components/Portfolio/PortfolioCard";
 import axios from "axios";
 import { Skeleton } from "antd";
 import ImageAndParagraphSkeleton from "../components/Common/ImageAndParagraphSkeleton";
+import SEO from "../components/Common/SEO";
 
 const Portfolio = () => {
 
@@ -17,6 +18,12 @@ const Portfolio = () => {
     })
     return (
         <BannerLayout>
+            <SEO
+                title="Portfolio"
+                description="Explore selected web development and software engineering projects built by Batombari Bakpo."
+                path="/portfolio"
+            />
+            <h1 className="sr-only">Portfolio Projects</h1>
             <div className="grid justify items-center grid-flow-row md:grid-cols-2 grid-rows-auto gap-4 px-8 my-6">
 
                 {

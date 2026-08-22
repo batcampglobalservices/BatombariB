@@ -573,6 +573,7 @@ export default function AdminCMS() {
     <BannerLayout>
       <Head>
         <title>Portfolio CMS Admin Dashboard</title>
+        <meta name="robots" content="noindex, nofollow" />
       </Head>
 
       <div className="px-4 sm:px-8 py-6 max-w-7xl mx-auto text-Snow font-circular">

@@ -8,6 +8,7 @@ import Fiverr_Icon from '../components/Fiverr_Icon';
 import Footer from '../components/Footer';
 import { Modal } from 'antd';
 import axios from 'axios';
+import SEO from '../components/Common/SEO';
 
 const Contact = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -77,6 +78,11 @@ const Contact = () => {
 
     return (
         <BannerLayout>
+            <SEO
+                title="Contact"
+                description="Get in touch with Batombari Bakpo for freelance projects, collaboration or job opportunities."
+                path="/contact"
+            />
             <div className=" px-4 py-2">
                 <div className="my-6 text-Snow flex flex-col gap-y-5">
                     <h1 className='text-lg font-bold'>Contact Information</h1>
@@ -116,7 +122,7 @@ const Contact = () => {
 
 
                 <div className="my-12 w-full h-auto text-Snow">
-                    <h1 className='text-lg font-bold'>Get In Touch</h1>
+                    <h2 className='text-lg font-bold'>Get In Touch</h2>
                     <form onSubmit={handleSubmit} className="mt-4 py-8 px-8 bg-EveningBlack rounded-xl text-sm">
                         <div>
                             <div className="flex flex-col w-full">
